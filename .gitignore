@@ -10,3 +10,4 @@ __pycache__/
 *.out
 *.run.xml
 *.synctex.gz
+*.xdv
