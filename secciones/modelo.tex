@@ -1,0 +1,80 @@
+\section{Modelo dinámico}
+
+\subsection{Sistema y fuentes de CO$_2$}
+
+El sistema experimental se representa mediante dos fuentes acopladas: la respiración larvaria y la degradación microbiana del alimento o lecho. La tasa total de producción de CO$_2$ es
+\begin{equation}
+  R_{\mathrm{total}}(t)
+  =
+  R_{\mathrm{lar}}(t)+R_{\mathrm{mic}}(t).
+  \label{eq:fuentes-totales}
+\end{equation}
+Esta descomposición permite contrastar por separado los controles sin larvas, las larvas en ayuno y los tratamientos completos antes de evaluar el sistema integrado.
+
+\subsection{Estados larvarios}
+
+La larva se describe mediante tres compartimentos: asimilados disponibles $A(t)$, biomasa estructural $B(t)$ y reservas lipídicas $L(t)$. El crecimiento medido corresponde a una observación agregada de la biomasa larvaria, de modo que no identifica por sí solo cada compartimento.
+
+\subsection{Alimentación y asimilación}
+
+La ingesta dependerá de la dieta, la disponibilidad del sustrato y el estado de desarrollo. La fracción asimilada alimenta el compartimento $A$, desde el cual se atienden mantenimiento, síntesis de biomasa estructural y acumulación de lípidos. La formulación completa se fijará después de verificar las unidades de todos los parámetros.
+
+\subsection{Crecimiento y respiración larvaria}
+
+La producción larvaria de CO$_2$ se descompone en mantenimiento y costos respiratorios de síntesis:
+\begin{equation}
+  R_{\mathrm{lar}}(t)
+  =
+  r_{\mathrm{m}}(t)
+  +\gamma_B\,\dot B(t)
+  +\gamma_L\,\max\{\dot L(t),0\}.
+  \label{eq:respiracion-larvaria}
+\end{equation}
+No se asigna producción de CO$_2$ a la movilización neta de lípidos; esa contribución queda asociada con el mantenimiento y con los flujos de síntesis efectivamente positivos.
+
+\subsection{Módulo microbiano del lecho}
+
+El lecho se representa mediante materia orgánica degradable $D_M(t)$ y una variable microbiana efectiva $X(t)$. La degradación sigue una cinética de disponibilidad:
+\begin{equation}
+  r_{\mathrm{deg}}(t)
+  =
+  k_{\mathrm{deg}}X(t)
+  \frac{D_M(t)}{K_{SM}+D_M(t)},
+  \qquad
+  R_{\mathrm{mic}}(t)
+  =
+  Y_{\mathrm{CO_2}}r_{\mathrm{deg}}(t).
+  \label{eq:modulo-microbiano}
+\end{equation}
+Los controles de alimento sin larvas son la restricción principal de este módulo.
+
+\subsection{Balance de la cámara de medición}
+
+La variable observada por el sensor es la pendiente temporal de la concentración en la cámara cerrada. Si $R_{\mathrm{total}}$ está en mol por unidad de tiempo,
+\begin{equation}
+  \frac{dC_{\mathrm{ppm}}}{dt}
+  =
+  10^6\,\frac{R_uT}{P_{\mathrm{atm}}V_{\mathrm{air}}}\,
+  R_{\mathrm{total}}(t).
+  \label{eq:balance-camara}
+\end{equation}
+Las tasas experimentales se recalcularán intervalo por intervalo a partir de las marcas temporales reales; no se aplicará un factor global de conversión.
+
+\subsection{Observables e identificabilidad}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Medición & Fuente dominante & Restricción del modelo \\
+\midrule
+Alimento D1 sin larvas & $R_{\mathrm{mic}}$ & Módulo microbiano D1 \\
+Alimento D4 sin larvas & $R_{\mathrm{mic}}$ & Módulo microbiano D4 \\
+Larvas solas en ayuno & $R_{\mathrm{lar}}$ & Mantenimiento larvario \\
+Alimento D1 con larvas & $R_{\mathrm{total}}$ & Acoplamiento en D1 \\
+Alimento D4 con larvas & $R_{\mathrm{total}}$ & Acoplamiento en D4 \\
+Crecimiento D1 y D4 & Biomasa larvaria & Crecimiento agregado \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La diferencia tratamiento--control no se interpretará automáticamente como respiración larvaria, porque las larvas también pueden modificar la actividad microbiana del lecho. La validación debe combinar componentes independientes, sistema integrado y transferencia a datos externos.
