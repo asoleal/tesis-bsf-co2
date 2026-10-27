@@ -237,6 +237,15 @@ def main():
     marca = f" [frontera: {','.join(frontera)}]" if frontera else ""
     print(f"\nCalibrados: a_max={amax:.4f} d^-1, rho={rho:.3f} mg C/d, f_D4={f_d4:.4f}{marca}")
 
+    # Persistir parametros para reproducibilidad (los lee validar_externos.py)
+    pdest = Path(args.salida).with_name("parametros_etapa2.csv")
+    pd.DataFrame([
+        dict(parametro="a_max", valor=amax, frontera=("a_max" in frontera)),
+        dict(parametro="rho", valor=rho, frontera=("rho" in frontera)),
+        dict(parametro="f_D4", valor=f_d4, frontera=("f_D4" in frontera)),
+    ]).to_csv(pdest, index=False)
+    print(f"Parametros: {pdest}")
+
     # Salida detallada y validacion de ayuno
     filas = []
     t_fino = np.arange(0.0, T_FIN + 0.05, 0.05)
