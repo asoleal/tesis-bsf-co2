@@ -16,9 +16,9 @@ from pathlib import Path
 
 import pandas as pd
 
-MONTAJE = date(2025, 9, 5)  # hipotesis documentada en datos/README.md
-DIAS_GAS = [4, 6, 8, 12]    # cierres del 9, 11, 13 y 17 de septiembre
-DIAS_GAS_CON_PESAJE = [4, 6, 8]
+MONTAJE = date(2025, 9, 3)  # hipotesis documentada en datos/README.md
+DIAS_GAS = [6, 8, 10, 14]   # cierres del 9, 11, 13 y 17 sep; montaje 3 sep
+DIAS_GAS_CON_PESAJE = [6, 8, 10, 14]  # sincronizacion 4 de 4
 
 
 def main():

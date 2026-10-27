@@ -64,7 +64,7 @@ P_LECHO_REF = ParametrosLecho(
 )
 
 T_FIN = 14.0
-DIA_MONTAJE_SEP = 5  # dia larvario = dia de septiembre - 5
+DIA_MONTAJE_SEP = 3  # dia larvario = dia de septiembre - 3 (montaje 3 sep)
 
 
 def pulso_carbono(dieta: str, g_fresco: float) -> float:
@@ -124,7 +124,7 @@ def main():
 
     cierres = pd.read_csv(args.cierres)
     crec = pd.read_csv(args.crecimiento)
-    p_larva = ParametrosEriksen()
+    p_larva = ParametrosEriksen(tp_min=8.5)
     t_eval = np.arange(0.0, T_FIN + 0.05, 0.05)
 
     ph0 = {

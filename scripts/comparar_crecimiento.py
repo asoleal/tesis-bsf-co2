@@ -12,9 +12,8 @@ Conversion modelo -> peso humedo (decision metodologica A):
 Supuestos declarados:
   - f_MS central 0.325 (literatura BSF, larva viva; no medido en el ensayo).
   - Estado inicial desde PH del dia 0: XDW0 = PH0 * f_MS central.
-  - tp_min = 13 d de Eriksen cuenta desde neonato; nuestras larvas ya
-    tenian ~4 mg PH al montaje, asi que un desfase temporal es esperable
-    y se cuantifica en los residuos (no se ajusta aqui).
+  - tp_min = 8.5 d desde montaje: 13 d de Eriksen desde eclosion menos
+    los 4.5 d de edad de las larvas al montaje (dato del experimentador).
 """
 
 import argparse
@@ -71,7 +70,7 @@ def main():
     args = parser.parse_args()
 
     obs = pd.read_csv(args.crecimiento)
-    p = ParametrosEriksen()
+    p = ParametrosEriksen(tp_min=8.5)
     t_eval = np.arange(0.0, 14.0 + 0.05, 0.1)
 
     filas = []

@@ -40,3 +40,56 @@ mismas cajas del experimento de gas (mismo lote y mismas dietas).
 Nota sobre MS de larvas: el analisis bromatologico del Excel reporta MS de
 larva secada para analisis (~97 %), no el contenido de materia seca de larva
 viva. La conversion PH -> MS -> carbono se definira aparte.
+
+## Regimen de alimentacion y volumen de camara (correcciones al articulo viejo)
+
+Regimen real de cargas (confirmado por el experimentador):
+- Dia larvario 1 (2025-09-06): 250 g tal como se recibio.
+- Dia larvario 5 (2025-09-10): 250 g tal como se recibio.
+- Total 500 g, sin retiros, hasta el dia 15. Consistente con PAL = 500 g
+  de la hoja Bioconversion del Excel de pesos.
+- El texto del articulo viejo decia 500 g + 250 g: era incorrecto.
+- Controles de alimento: mismo regimen de cargas, sin larvas.
+- Larvas en ayuno: camara vacia, sin sustrato.
+
+Materia seca por carga de 250 g (bromatologia propia):
+- D1 (MS 86.3 %): 215.75 g MS por carga.
+- D4 (MS 80.3 %): 200.75 g MS por carga.
+
+Volumen de aire efectivo (estimacion geometrica, sensibilidad +-0.5 L):
+- Camara troncopiramidal: 13.8 L (boca 37x26, base 32x21, h 17 cm).
+- Recipiente interno real: 12x12x5 cm = 0.72 L (el suplementario viejo
+  decia 15x12x5: era incorrecto).
+- V_aire = 13.8 - 0.72 = 13.08 L.
+- Temperatura de cierre: T = 300 K.
+
+## Edad larvaria al montaje y desfase de etiquetado (confirmados por el experimentador)
+
+- Las larvas tenian 4.5 d de edad al montaje. Por tanto el tp_min = 13 d de
+  Eriksen (desde eclosion) corresponde a tp_min = 8.5 d desde el montaje.
+  Se usa fijo, no calibrado.
+- Desfase Delta = 2 d entre el etiquetado de medicion y el dia de montaje
+  (notas de laboratorio): dia larvario de gas = dia calendario desde
+  montaje - 2. Con ello los cierres corresponden a los dias larvarios
+  2, 4, 6 y 10, todos con pesaje directo (sincronizacion 4 de 4).
+- V_aire: el 12.1 L del articulo viejo era estimado; el valor de trabajo es
+  13.08 L (reconstruccion geometrica, seccion anterior).
+- delta_DW,0 = 0.26 del articulo viejo no es trazable (posiblemente de la
+  base de datos de los experimentadores, sin confirmar); se mantiene
+  f_MS = 0.325 de literatura con banda [0.30, 0.35].
+
+## Correccion de la hipotesis de montaje (2025-09-03)
+
+El desfase Delta=2 d del articulo viejo se probo y se rechazo: llevaba el
+pico de gas (670 ppm/min) al dia larvario 2, donde 700 larvas tienen ~2 g
+de carbono corporal; respirar >=6.1 g C/d es fisicamente imposible
+(~3 veces el carbono corporal por dia). Ese Delta se referia al etiquetado
+de archivos del articulo viejo, no al calendario.
+
+Nueva hipotesis documentada: montaje = 2025-09-03. Los cierres caen en los
+dias larvarios 6, 8, 10 y 14. Justificacion triple:
+1. Sincronizacion 4 de 4 con dias de pesaje (6, 8, 10, 14).
+2. El pico de gas (dia 6) coincide con el pico de crecimiento observado.
+3. El balance de carbono es factible (tasa especifica ~0.34 d^-1 en el
+   pico voraz, alta pero plausible).
+El ayuno del 17 sep corresponde entonces al dia larvario 14 (prepupa).
