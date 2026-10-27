@@ -47,7 +47,9 @@ from modelo import (
 )
 
 # Condiciones del montaje
-PULSOS = [(1.0, 250.0), (5.0, 250.0)]  # (dia larvario, g en fresco)
+# Primer pulso en t = 0: las larvas llegaron con contenido intestinal
+# de la crianza (decision documentada); segundo pulso dia larvario 5.
+PULSOS = [(0.0, 250.0), (5.0, 250.0)]  # (dia larvario, g en fresco)
 MS_DIETA = {"D1": 0.863, "D4": 0.803}
 N_LARVAS = 700
 T_K = 300.0
@@ -75,12 +77,12 @@ def simular_escenario(p_larva, p_lecho, N, XDW0, dieta, con_pulsos, t_eval):
     """Integra por tramos aplicando los pulsos de alimento en sus dias."""
     X0 = X0_G_C if con_pulsos else 0.0
     y = estado_inicial_desde_dw(XDW0, 0.0, X0, p_larva)
-    cortes = [0.0] + [d for d, _ in PULSOS] + [T_FIN]
+    cortes = sorted(set([0.0] + [d for d, _ in PULSOS] + [T_FIN]))
     pulsos_por_dia = dict(PULSOS)
 
     ts, ys = [], []
     for a, b in zip(cortes[:-1], cortes[1:]):
-        if a > 0.0 and con_pulsos:
+        if a in pulsos_por_dia and con_pulsos:
             y[2] += pulso_carbono(dieta, pulsos_por_dia[a])
         t_seg = t_eval[(t_eval >= a) & (t_eval <= b)]
         if len(t_seg) < 2:

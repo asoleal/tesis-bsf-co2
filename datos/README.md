@@ -93,3 +93,23 @@ dias larvarios 6, 8, 10 y 14. Justificacion triple:
 3. El balance de carbono es factible (tasa especifica ~0.34 d^-1 en el
    pico voraz, alta pero plausible).
 El ayuno del 17 sep corresponde entonces al dia larvario 14 (prepupa).
+
+## Decisiones de la etapa 2 de calibracion (2025, sesion de reconstruccion)
+
+- **Primer pulso en t = 0**: las larvas llegaron de la crianza con
+  contenido intestinal, por lo que la alimentacion efectiva arranca con
+  el montaje y no en el dia larvario 1. Aplicado en
+  `scripts/calibrar_etapa2.py` y `scripts/comparar_gas.py`.
+- **Opcion A (fase tardia)**: el nucleo de Eriksen no cataboliza B ni
+  lipidos y mantiene el mantenimiento pleno en prepupa; el descenso de
+  PH observado post-pico es mayormente agua. El ajuste de crecimiento
+  se restringe a dias <= 8 (fase de crecimiento/pico); los dias 10 y 14
+  se reportan solo como diagnostico. Es una limitacion estructural
+  documentada del nucleo, no un ajuste ad hoc.
+- **K_D = 2 g C**: con K_D = 50 g C la dieta D4 colapsaba por hambre
+  (phi_D ~ 0.3-0.46) y el ajuste se iba a las fronteras; K_D = 2 g C
+  (como el K_s del articulo anterior) produce un ajuste sano e interior.
+- Resultados etapa 2 (maquina canonica): a_max = 1.4949 d^-1 (a 0.3 %
+  del tope 1.5, se reporta), rho = 4.446 mg C/d, f_D4 = 0.8006;
+  RMSE crecimiento (fase ajustada) = 38.85 mg, gas = 59.74 ppm/min;
+  validacion de ayuno (fuera del ajuste) ratio = 6.53.
