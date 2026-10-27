@@ -141,21 +141,82 @@ Como los flujos están en mg C d$^{-1}$, la tasa en masa de CO$_2$ es
 \end{equation}
 El método numérico no forma parte del modelo: estas ecuaciones se resolverán como un sistema continuo de ecuaciones diferenciales.
 
-\subsection{Módulo microbiano del lecho}
 
-El lecho se representa mediante materia orgánica degradable $D_M(t)$ y una variable microbiana efectiva $X(t)$. La degradación sigue una cinética de disponibilidad:
+\subsection{Extensión del alimento y el lecho}
+
+El núcleo de Eriksen representa la larva, pero no la dinámica del alimento ni la fuente microbiana del lecho. Para extenderlo, sea $D_C(t)$ el carbono degradable disponible, en g C por cámara, y $X(t)$ una biomasa microbiana efectiva, también en g C. El estado $D_C$ se inicializa a partir de la materia seca del alimento:
 \begin{equation}
-  r_{\mathrm{deg}}(t)
-  =
-  k_{\mathrm{deg}}X(t)
-  \frac{D_M(t)}{K_{SM}+D_M(t)},
+  D_C(0)=\delta_{C,S}D_{M,0},
   \qquad
-  R_{\mathrm{mic}}(t)
-  =
-  Y_{\mathrm{CO_2}}r_{\mathrm{deg}}(t).
-  \label{eq:modulo-microbiano}
+  X(0)=X_0,
+  \label{eq:extension-iniciales}
 \end{equation}
-Los controles de alimento sin larvas son la restricción principal de este módulo.
+donde $\delta_{C,S}$ es la fracción de carbono degradable del sustrato y $D_{M,0}$ su materia seca inicial.
+
+La disponibilidad de alimento modifica la tasa específica de asimilación del núcleo larvario mediante una función de saturación:
+\begin{equation}
+  \Phi_D(D_C)=\frac{D_C}{K_D+D_C},
+  \qquad
+  a_d(t)=a(t)f_d\Phi_D(D_C),
+  \qquad
+  r_A=a_d(t)B.
+  \label{eq:extension-disponibilidad}
+\end{equation}
+El factor $f_d$ representa la calidad de la dieta; se fijará $f_{D1}=1$ como referencia y $f_{D4}$ podrá estimarse si los datos lo requieren. Esta modificación no pertenece al núcleo original de Eriksen: es la parte de la extensión que conecta la larva con la cantidad de alimento disponible.
+
+El balance del carbono degradable para $N$ larvas es
+\begin{equation}
+  \frac{dD_C}{dt}
+  =
+  -\frac{N}{1000}r_A-r_{\deg}.
+  \label{eq:extension-balance-dc}
+\end{equation}
+El factor $1000$ convierte los mg C larva$^{-1}$ d$^{-1}$ del núcleo larvario a g C d$^{-1}$ por cámara.
+
+La degradación microbiana sigue una cinética de saturación respecto al carbono disponible:
+\begin{equation}
+  r_{\deg}
+  =
+  k(T_C,\theta_d)X
+  \frac{D_C}{K_{SM}+D_C},
+  \qquad
+  \frac{dX}{dt}=Y_Xr_{\deg}.
+  \label{eq:extension-degradacion}
+\end{equation}
+La producción microbiana de CO$_2$ es
+\begin{equation}
+  r_{C,\mathrm{mic}}=Y_{C,\mathrm{mic}}r_{\deg},
+  \qquad
+  0\leq Y_X+Y_{C,\mathrm{mic}}\leq1.
+  \label{eq:extension-co2-microbiano}
+\end{equation}
+El carbono no asignado a biomasa microbiana ni a CO$_2$ permanece en productos no respirados del lecho.
+
+La constante efectiva de degradación incorpora la temperatura y la humedad del tratamiento:
+\begin{equation}
+  k(T_C,\theta_d)
+  =
+  k_{\mathrm{ref}}
+  Q_{10}^{(T_C-T_{\mathrm{ref}})/10}
+  \frac{\theta_d}{K_\theta+\theta_d}.
+  \label{eq:extension-k-temp}
+\end{equation}
+En esta primera versión, $\theta_d$ se calcula con la humedad inicial del lecho y se mantiene fija para cada dieta; no se introduce todavía un balance dinámico del agua.
+
+Finalmente, la producción total de carbono respirado por cámara es
+\begin{equation}
+  R_{C,\mathrm{total}}
+  =
+  \frac{N}{1000}r_{\mathrm{CO_2,lar}}
+  +
+  r_{C,\mathrm{mic}},
+  \qquad
+  R_{\mathrm{mol,total}}
+  =
+  \frac{R_{C,\mathrm{total}}}{12}.
+  \label{eq:extension-co2-total}
+\end{equation}
+En los controles sin larvas, $N=0$ y la observación restringe únicamente el módulo microbiano. En larvas solas, $D_C=0$, $a_d=0$ y la observación restringe el mantenimiento larvario. En los tratamientos completos se observa la suma de ambas fuentes.
 
 \subsection{Balance de la cámara de medición}
 
