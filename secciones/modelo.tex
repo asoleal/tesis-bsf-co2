@@ -11,26 +11,135 @@ El sistema experimental se representa mediante dos fuentes acopladas: la respira
 \end{equation}
 Esta descomposición permite contrastar por separado los controles sin larvas, las larvas en ayuno y los tratamientos completos antes de evaluar el sistema integrado.
 
-\subsection{Estados larvarios}
 
-La larva se describe mediante tres compartimentos: asimilados disponibles $A(t)$, biomasa estructural $B(t)$ y reservas lipídicas $L(t)$. El crecimiento medido corresponde a una observación agregada de la biomasa larvaria, de modo que no identifica por sí solo cada compartimento.
+\subsection{Núcleo larvario de Eriksen}
 
-\subsection{Alimentación y asimilación}
+El núcleo larvario se adopta sin modificación de la formulación de Eriksen. Los estados y flujos se definen por larva y se expresan en equivalentes de carbono: $B$ es la biomasa estructural, $L_{\mathrm{tot}}$ el contenido total de lípidos y $A$ el pool de asimilados. La conversión a masa seca, masa húmeda y CO$_2$ se realiza posteriormente en la capa de observación.
 
-La ingesta dependerá de la dieta, la disponibilidad del sustrato y el estado de desarrollo. La fracción asimilada alimenta el compartimento $A$, desde el cual se atienden mantenimiento, síntesis de biomasa estructural y acumulación de lípidos. La formulación completa se fijará después de verificar las unidades de todos los parámetros.
-
-\subsection{Crecimiento y respiración larvaria}
-
-La producción larvaria de CO$_2$ se descompone en mantenimiento y costos respiratorios de síntesis:
+El pool de asimilados se considera pequeño frente a los flujos que lo atraviesan y se mantiene en estado estacionario:
 \begin{equation}
-  R_{\mathrm{lar}}(t)
+  \frac{dA}{dt}
   =
-  r_{\mathrm{m}}(t)
-  +\gamma_B\,\dot B(t)
-  +\gamma_L\,\max\{\dot L(t),0\}.
-  \label{eq:respiracion-larvaria}
+  0
+  =
+  r_A-
+  \left(
+    r_B+r_L+r_{C,m}+r_{C,B}+r_{C,L}
+  \right).
+  \label{eq:eriksen-balance-a}
 \end{equation}
-No se asigna producción de CO$_2$ a la movilización neta de lípidos; esa contribución queda asociada con el mantenimiento y con los flujos de síntesis efectivamente positivos.
+Los estados dinámicos son
+\begin{equation}
+  \frac{dB}{dt}=r_B,
+  \qquad
+  \frac{dL_{\mathrm{tot}}}{dt}
+  =
+  r_L+\delta_{L,B}r_B.
+  \label{eq:eriksen-estados}
+\end{equation}
+Aquí $r_A$ es la asimilación, $r_B$ la síntesis de biomasa estructural, $r_L$ la acumulación neta de lípidos de reserva, y $r_{C,m}$, $r_{C,B}$ y $r_{C,L}$ las producciones de CO$_2$ por mantenimiento y síntesis. El término $\delta_{L,B}r_B$ representa los lípidos estructurales incluidos en la medición analítica de lípidos totales.
+
+\subsection{Desarrollo y asimilación}
+
+El tiempo $t$ representa la edad larvaria desde neonato. El máximo de biomasa estructural disminuye cuando las larvas no alcanzan la prepupa antes del tiempo mínimo de desarrollo:
+\begin{equation}
+  B_{\max}(t)=
+  \begin{cases}
+    B_{\max,0}, & t<t_{p,\min},\\[4pt]
+    B_{\max,0}-\rho\left(t-t_{p,\min}\right), & t\geq t_{p,\min}.
+  \end{cases}
+  \label{eq:eriksen-bmax}
+\end{equation}
+Operacionalmente, el instar se evalúa como en el modelo oficial de Eriksen:
+\begin{equation}
+  I=
+  \begin{cases}
+    1\text{--}5, & B<B_{\max,0}/\delta_I,\\[4pt]
+    7, & B\geq B_{\max}(t),\\[4pt]
+    6, & B_{\max,0}/\delta_I\leq B<B_{\max}(t).
+  \end{cases}
+  \label{eq:eriksen-instar}
+\end{equation}
+La tasa específica de asimilación es
+\begin{equation}
+  a=
+  \begin{cases}
+    a_{\max}, & I<6,\\[4pt]
+    a_{\max}
+      \left[
+        1-
+        \left(\dfrac{B}{B_{\max}(t)}\right)^\alpha
+      \right], & I=6,\\[10pt]
+    0, & I>6.
+  \end{cases}
+  \label{eq:eriksen-asimilacion}
+\end{equation}
+
+\subsection{Balances de biomasa y CO$_2$ larvario}
+
+La asimilación total y el mantenimiento son proporcionales a la biomasa estructural:
+\begin{equation}
+  r_A=aB,
+  \qquad
+  r_{C,m}=mB.
+  \label{eq:eriksen-asimilacion-mantenimiento}
+\end{equation}
+La tasa específica de crecimiento estructural es
+\begin{equation}
+  \mu_B=
+  \left(\frac{a-m}{1+Y_B}\right)
+  \left[
+    1-
+    \left(\frac{B}{B_{\max}(t)}\right)^\beta
+  \right],
+  \label{eq:eriksen-mu}
+\end{equation}
+y la síntesis de biomasa estructural se detiene en prepupa:
+\begin{equation}
+  r_B=
+  \begin{cases}
+    \mu_BB, & I\leq6,\\[4pt]
+    0, & I>6.
+  \end{cases}
+  \label{eq:eriksen-rb}
+\end{equation}
+
+El costo respiratorio de la síntesis estructural es
+\begin{equation}
+  r_{C,B}=Y_Br_B.
+  \label{eq:eriksen-rcb}
+\end{equation}
+Definiendo el excedente de asimilados
+\begin{equation}
+  s_L=r_A-\left(r_B+r_{C,m}+r_{C,B}\right),
+  \label{eq:eriksen-excedente}
+\end{equation}
+la acumulación neta de lípidos de reserva es
+\begin{equation}
+  r_L=
+  \begin{cases}
+    \dfrac{s_L}{1+Y_L}, & s_L\geq0,\\[8pt]
+    s_L, & s_L<0.
+  \end{cases}
+  \label{eq:eriksen-rl}
+\end{equation}
+El costo respiratorio de la síntesis de lípidos y la producción larvaria total son
+\begin{equation}
+  r_{C,L}=Y_L\max\{r_L,0\},
+  \qquad
+  r_{\mathrm{CO_2,lar}}
+  =
+  r_{C,m}+r_{C,B}+r_{C,L}.
+  \label{eq:eriksen-co2-larvario}
+\end{equation}
+Como los flujos están en mg C d$^{-1}$, la tasa en masa de CO$_2$ es
+\begin{equation}
+  \dot m_{\mathrm{CO_2,lar}}
+  =
+  \frac{44}{12}\,r_{\mathrm{CO_2,lar}}.
+  \label{eq:eriksen-conversion-co2}
+\end{equation}
+El método numérico no forma parte del modelo: estas ecuaciones se resolverán como un sistema continuo de ecuaciones diferenciales.
 
 \subsection{Módulo microbiano del lecho}
 
