@@ -60,6 +60,7 @@ Operacionalmente, el instar se evalúa como en el modelo oficial de Eriksen:
   \end{cases}
   \label{eq:eriksen-instar}
 \end{equation}
+En la formulación original, la Ec.~15 de Eriksen aparece impresa con el umbral constante $B\geq B_{\max,0}$ para la entrada a prepupa. Esa forma es inconsistente con los resultados reportados en su propia Tabla~2: bajo restricción de alimento las larvas entran a prepupa sin alcanzar nunca $B_{\max,0}$. Se adopta por tanto el umbral decreciente $B_{\max}(t)$, que es el coherente con la Ec.~\eqref{eq:eriksen-bmax}.
 La tasa específica de asimilación es
 \begin{equation}
   a=
@@ -141,6 +142,30 @@ Como los flujos están en mg C d$^{-1}$, la tasa en masa de CO$_2$ es
 \end{equation}
 El método numérico no forma parte del modelo: estas ecuaciones se resolverán como un sistema continuo de ecuaciones diferenciales.
 
+\subsection{Capa de observación: peso seco y peso húmedo}
+
+Los estados $B$ y $L_{\mathrm{tot}}$ están expresados en equivalentes de carbono. Para comparar con las mediciones de crecimiento se convierten a peso seco y peso húmedo siguiendo las Ecs.~19--22 de Eriksen. El peso seco estructural excluye los lípidos estructurales, que ya quedan contabilizados dentro de $L_{\mathrm{tot}}$:
+\begin{equation}
+  X_{DW,B}=\frac{(1-\delta_{L,B})\,B}{\delta_{C,B}\,\delta_O},
+  \qquad
+  X_{DW}=X_{DW,B}+\frac{L_{\mathrm{tot}}}{\delta_{C,L}},
+  \label{eq:eriksen-xdw}
+\end{equation}
+donde $\delta_{C,B}$ es la fracción de carbono de la fracción orgánica de la biomasa estructural, $\delta_O$ la fracción orgánica del peso seco y $\delta_{C,L}$ la fracción de carbono de los lípidos. El peso seco de lípidos y su fracción del peso seco total son
+\begin{equation}
+  L_{DW}=\frac{L_{\mathrm{tot}}}{\delta_{C,L}},
+  \qquad
+  \delta_{\mathrm{lipid}}=\frac{L_{DW}}{X_{DW}}.
+  \label{eq:eriksen-ldw}
+\end{equation}
+Como los lípidos retienen poca agua, el peso húmedo y la fracción de peso seco de la biomasa total se calculan como
+\begin{equation}
+  X_{WW}=\frac{X_{DW,B}}{\delta_{DW,B}}+L_{DW},
+  \qquad
+  \delta_{DW}=\frac{X_{DW}}{X_{WW}},
+  \label{eq:eriksen-xww}
+\end{equation}
+donde $\delta_{DW,B}$ es la fracción de peso seco de la biomasa estructural. Los valores de conversión son los de Eriksen: $\delta_{C,B}=0.49$, $\delta_O=0.9$, $\delta_{L,B}=0.1$, $\delta_{DW,B}=0.25$ y $\delta_{C,L}=0.79$ (valor empleado en sus tablas; el texto del artículo original reporta 0.74).
 
 \subsection{Extensión del alimento y el lecho}
 
