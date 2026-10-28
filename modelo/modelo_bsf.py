@@ -3,6 +3,9 @@
 Unidades internas del núcleo: mg C por larva y mg C larva^-1 d^-1.
 Unidades del lecho: g C por cámara y g C d^-1.
 Este módulo no calibra parámetros.
+
+Incluye un módulo de prepupa opcional (f_mant_prepupa, k_cat_prepupa);
+con sus valores por defecto reproduce exactamente el núcleo original.
 """
 
 from __future__ import annotations
@@ -31,6 +34,9 @@ class ParametrosEriksen:
     delta_CB: float = 0.49
     delta_CL: float = 0.79  # valor usado en el Excel oficial de Eriksen
     delta_O: float = 0.9
+    # Módulo de prepupa (opcional; los defaults reproducen el original):
+    f_mant_prepupa: float = 1.0  # factor del mantenimiento en instar 7
+    k_cat_prepupa: float = 0.0   # d^-1, catabolismo estructural en instar 7
 
 
 @dataclass(frozen=True)
@@ -104,6 +110,13 @@ def tasas_larva(
 
     factor_alimento=1 reproduce el núcleo original. La extensión usa
     f_dieta*D_C/(K_D+D_C).
+
+    Módulo de prepupa (solo instar 7): mantenimiento reducido por
+    f_mant_prepupa y catabolismo estructural a tasa k_cat_prepupa cuyo
+    carbono se respira (entra a rCO2_C y no al excedente de lípidos).
+    Con f_mant_prepupa=1 y k_cat_prepupa=0 el resultado es idéntico al
+    núcleo original. Como en el original, el instar 7 es reversible si
+    B cae por debajo de Bmax_t (sin histéresis).
     """
     del Ltot  # Ltot no entra en las tasas del núcleo original.
     B = max(float(B), 0.0)
@@ -119,15 +132,25 @@ def tasas_larva(
 
     a_eff = a * factor_alimento
     rA = a_eff * B
-    rCm = p.m * B
     G = max(1.0 - (B / bm) ** p.beta, 0.0)
     muB = ((a_eff - p.m) / (1.0 + p.YB)) * G
-    rB = muB * B if I <= 6 else 0.0
-    rCB = p.YB * rB
-    sL = rA - (rB + rCm + rCB)
+
+    if I <= 6:
+        rB = muB * B
+        rCB = p.YB * rB
+        rCm = p.m * B
+        sL = rA - (rB + rCm + rCB)
+        rcat = 0.0
+    else:
+        rB = -p.k_cat_prepupa * B
+        rCB = 0.0
+        rCm = p.m * p.f_mant_prepupa * B
+        sL = rA - rCm
+        rcat = p.k_cat_prepupa * B
+
     rL = sL / (1.0 + p.YL) if sL >= 0.0 else sL
     rCL = p.YL * max(rL, 0.0)
-    rCO2_C = rCm + rCB + rCL
+    rCO2_C = rCm + rCB + rCL + rcat
 
     return TasasLarva(
         instar=I,
