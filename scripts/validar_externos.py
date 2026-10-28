@@ -148,7 +148,7 @@ def simular(p_larva, p_lecho, N, T_C, y0, pulsos_ms, dcs, t_fin, t_eval):
         mic = tasas_lecho(D_C, X, T_C, p_lecho)
         lar = tasas_larva(tk, B, Ltot, p_larva, p_lecho.f_dieta * mic.phi_D)
         R_C[k] = N * lar.rCO2_C / 1000.0 + mic.rCmic
-    m_dw = (np.maximum(Y[0], 0.0) / (p_larva.delta_CB * p_larva.delta_O)
+    m_dw = ((1.0 - p_larva.delta_LB) * np.maximum(Y[0], 0.0) / (p_larva.delta_CB * p_larva.delta_O)
             + np.maximum(Y[1], 0.0) / p_larva.delta_CL)
     return t, Y, R_C, m_dw
 

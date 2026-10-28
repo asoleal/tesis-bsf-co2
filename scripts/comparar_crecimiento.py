@@ -6,7 +6,7 @@ Eriksen y factor_alimento = 1 (sin efecto de dieta ni limitacion por D_C).
 Los residuos cuantifican cuanto falta por explicar y motivan la extension.
 
 Conversion modelo -> peso humedo (decision metodologica A):
-  m_DW = B/(delta_CB*delta_O) + Ltot/delta_CL
+  m_DW = (1-delta_LB)*B/(delta_CB*delta_O) + Ltot/delta_CL   (Ec. 19 de Eriksen)
   PH_modelo = m_DW / f_MS, con banda de sensibilidad f_MS en [0.30, 0.35].
 
 Supuestos declarados:
@@ -58,7 +58,8 @@ def simular_nucleo(p: ParametrosEriksen, XDW0: float, t_eval: np.ndarray):
 
 
 def ph_desde_estados(B, Ltot, p: ParametrosEriksen, f_ms: float) -> np.ndarray:
-    m_dw = np.asarray(B) / (p.delta_CB * p.delta_O) + np.asarray(Ltot) / p.delta_CL
+    m_dw = ((1.0 - p.delta_LB) * np.asarray(B) / (p.delta_CB * p.delta_O)
+            + np.asarray(Ltot) / p.delta_CL)
     return m_dw / f_ms
 
 

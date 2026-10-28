@@ -113,3 +113,14 @@ El ayuno del 17 sep corresponde entonces al dia larvario 14 (prepupa).
   del tope 1.5, se reporta), rho = 4.446 mg C/d, f_D4 = 0.8006;
   RMSE crecimiento (fase ajustada) = 38.85 mg, gas = 59.74 ppm/min;
   validacion de ayuno (fuera del ajuste) ratio = 6.53.
+
+## Correccion Ec. 19 de Eriksen (factor 1-delta_LB en conversion a peso)
+
+La conversion de (B, Ltot) a peso seco/humedo llevaba B/(delta_CB*delta_O)
+sin el factor (1-delta_LB) de la Ec. 19 (los lipidos estructurales ya estan
+en Ltot). Corregida en comparar_crecimiento.py, calibrar_etapa2.py y
+validar_externos.py; el articulo ya incluye las Ecs. 19-22 exactas.
+Nuevos valores canonicos etapa 2: a_max = 1.4995 d^-1 (frontera),
+rho = 4.395 mg C/d, f_D4 = 0.8047; RMSE crecimiento = 35.65 mg PH,
+RMSE gas = 60.89 ppm/min; ayuno ratio = 6.54. Conclusiones de validacion
+externa sin cambio (Ermolaev B 4/4; Schon B totales y masas 4/4).

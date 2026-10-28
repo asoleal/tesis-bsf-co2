@@ -151,7 +151,7 @@ def simular_dieta(dieta, amax, rho, f_d4, micro, t_eval):
     ppm = carbono_a_ppm_min(R_C, V_AIRE_L, T_K)
     B = np.maximum(Y[0], 0.0)
     Ltot = np.maximum(Y[1], 0.0)
-    ph = (B / (p_larva.delta_CB * p_larva.delta_O) + Ltot / p_larva.delta_CL) / F_MS
+    ph = ((1.0 - p_larva.delta_LB) * B / (p_larva.delta_CB * p_larva.delta_O) + Ltot / p_larva.delta_CL) / F_MS
     return t, ppm, ph, Y
 
 
