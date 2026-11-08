@@ -1,5 +1,17 @@
 \section{Resultados}
 
+\subsection{Verificación del núcleo con Eriksen}
+
+La implementación se verificó contra los 15 casos de la Tabla 2 de Eriksen, sin ajustar parámetros y con la extensión de prepupa desactivada. El tiempo $t_p$ se evaluó como la edad del máximo $X_{DW}$, siguiendo la definición del libro Excel oficial. Con tolerancias operativas de 10 \% para $X_{DW,\max}$ y $t_p$, 5 puntos porcentuales para la fracción lipídica y 3 para $\delta_{DW}$, se obtuvieron 15 de 15 casos dentro de tolerancia en $X_{DW,\max}$, 14 de 15 en $t_p$, 15 de 15 en lípidos y 10 de 15 en $\delta_{DW}$.
+
+Las discrepancias se rastrearon al material original. En la Fig.~3B, el archivo \emph{S1 Data} produce $t_p=17.0$ d y no 13 d como imprime la Tabla 2. En los cinco casos de la Fig.~4, los valores tabulados de $\delta_{DW}$ se reproducen con $\delta_{DW,B}=0.20$, aunque la tabla declara 0.25. Estas diferencias se documentaron sin modificar el núcleo para acomodar las celdas inconsistentes.
+
+\subsection{Verificación del núcleo con Eriksen}
+
+La implementación se verificó contra los 15 casos de la Tabla 2 de Eriksen, sin ajustar parámetros y con la extensión de prepupa desactivada. El tiempo $t_p$ se evaluó como la edad del máximo $X_{DW}$, siguiendo la definición del libro Excel oficial. Con tolerancias operativas de 10 \% para $X_{DW,\max}$ y $t_p$, 5 puntos porcentuales para la fracción lipídica y 3 para $\delta_{DW}$, se obtuvieron 15 de 15 casos dentro de tolerancia en $X_{DW,\max}$, 14 de 15 en $t_p$, 15 de 15 en lípidos y 10 de 15 en $\delta_{DW}$.
+
+Las discrepancias se rastrearon al material original. En la Fig.~3B, el archivo \emph{S1 Data} produce $t_p=17.0$ d y no 13 d como imprime la Tabla 2. En los cinco casos de la Fig.~4, los valores tabulados de $\delta_{DW}$ se reproducen con $\delta_{DW,B}=0.20$, aunque la tabla declara 0.25. Estas diferencias se documentaron sin modificar el núcleo para acomodar las celdas inconsistentes.
+
 \subsection{Calibración en dos etapas}
 
 La calibración se declaró en dos etapas. En la primera, los controles sin larvas restringen el módulo microbiano de cada dieta ($k_{\mathrm{ref}}$ y $\delta_{C,S}$). En la segunda, con el módulo microbiano congelado, se estimaron $a_{\max}$, $\rho$ y $f_{D4}$ contra el crecimiento (días $\leq 8$) y los cierres de gas de los tratamientos, con los cierres saturados como cotas inferiores. Las larvas en ayuno no entraron al ajuste.
@@ -20,7 +32,7 @@ $f_{D4}$ & 0.8047 & 2 & interior \\
 \end{tabular}
 \end{center}
 
-Las fronteras alcanzadas se reportan sin corrección. El error de ajuste fue RMSE $= 35.65$ mg PH en crecimiento ($n = 10$, días $\leq 8$) y RMSE $= 60.89$ ppm min$^{-1}$ en gas ($n = 4$ cierres no saturados). Los días 10 y 14 se reportan como diagnóstico de fase tardía: el modelo sobreestima el peso húmedo post-pico porque el núcleo no cataboliza reservas y el descenso observado es mayormente pérdida de agua.
+Las fronteras alcanzadas se reportan sin corrección; esos valores representan óptimos restringidos por el intervalo admisible y no parámetros bien identificados. El error de ajuste fue RMSE $= 35.65$ mg PH en crecimiento ($n = 10$, días $\leq 8$) y RMSE $= 60.89$ ppm min$^{-1}$ en gas ($n = 4$ cierres no saturados). Los días 10 y 14 se reportan como diagnóstico de fase tardía: el modelo sobreestima el peso húmedo post-pico. En prepupa, el núcleo consume lípidos para sostener el mantenimiento, pero no cataboliza la biomasa estructural $B$ ni reduce dicho mantenimiento. La contribución de la pérdida de agua al descenso observado del peso húmedo se considera una hipótesis por verificar con mediciones de masa seca.
 
 \subsection{Validación interna: larvas en ayuno}
 
@@ -28,7 +40,7 @@ El ayuno, no usado en el ajuste, queda sobreestimado: 186.35 ppm min$^{-1}$ mode
 
 \subsection{Validación externa: Ermolaev et al. (2019)}
 
-El modelo calibrado se transfirió a 700 larvas sobre food waste a 28 $^{\circ}$C con pulsos de alimento. En el nivel A (transferencia pura, sin reajuste) y el nivel B (reajuste mínimo de $f$, $t_{p,\min}$, $\rho$ y $B_{\max,0}$):
+El modelo calibrado se transfirió a 700 larvas sobre food waste a 28 $^{\circ}$C con pulsos de alimento, en dos niveles: A, transferencia pura sin reajuste, y B, recalibración mínima de $f$, $t_{p,\min}$, $\rho$ y $B_{\max,0}$. El nivel B evalúa capacidad de adaptación y no constituye validación independiente:
 
 \begin{center}
 \begin{tabular}{lrrrrrrr}
@@ -48,7 +60,7 @@ En nivel A la magnitud del pico y el acumulado quedan dentro de tolerancia, pero
 
 \subsection{Validación externa: Schøn et al. (2026)}
 
-La transferencia a 600 larvas en cuatro dietas de proteína decreciente (27 $^{\circ}$C, lote único de 80 g MS) se evaluó en flujo volumétrico de CO$_2$. En el nivel B solo se reajustó $f$ por dieta.
+La transferencia a 600 larvas en cuatro dietas de proteína decreciente (27 $^{\circ}$C, lote único de 80 g MS) se evaluó en flujo volumétrico de CO$_2$. En el nivel B solo se reajustó $f$ por dieta; por ello, este nivel representa una recalibración por dieta, no una validación independiente.
 
 \begin{center}
 \begin{tabular}{lrrrrrrrrrr}

@@ -14,7 +14,7 @@ Esta descomposición permite contrastar por separado los controles sin larvas, l
 
 \subsection{Núcleo larvario de Eriksen}
 
-El núcleo larvario se adopta sin modificación de la formulación de Eriksen. Los estados y flujos se definen por larva y se expresan en equivalentes de carbono: $B$ es la biomasa estructural, $L_{\mathrm{tot}}$ el contenido total de lípidos y $A$ el pool de asimilados. La conversión a masa seca, masa húmeda y CO$_2$ se realiza posteriormente en la capa de observación.
+El núcleo larvario reproduce la formulación de Eriksen, con una precisión operacional en el umbral de entrada a prepupa justificada más adelante. Los estados y flujos se definen por larva y se expresan en equivalentes de carbono: $B$ es la biomasa estructural, $L_{\mathrm{tot}}$ el contenido total de lípidos y $A$ el pool de asimilados. La conversión a masa seca, masa húmeda y CO$_2$ se realiza posteriormente en la capa de observación.
 
 El pool de asimilados se considera pequeño frente a los flujos que lo atraviesan y se mantiene en estado estacionario:
 \begin{equation}
@@ -241,16 +241,16 @@ Finalmente, la producción total de carbono respirado por cámara es
   \frac{R_{C,\mathrm{total}}}{12}.
   \label{eq:extension-co2-total}
 \end{equation}
-En los controles sin larvas, $N=0$ y la observación restringe únicamente el módulo microbiano. En larvas solas, $D_C=0$, $a_d=0$ y la observación restringe el mantenimiento larvario. En los tratamientos completos se observa la suma de ambas fuentes.
+En los controles sin larvas, $N=0$ y la observación restringe únicamente el módulo microbiano. En larvas solas, $D_C=0$, $a_d=0$ y la observación restringe la respiración de mantenimiento $mB$ en el estado simulado, no el parámetro $m$ de forma independiente. En los tratamientos completos se observa la suma de ambas fuentes.
 
 \subsection{Balance de la cámara de medición}
 
-La variable observada por el sensor es la pendiente temporal de la concentración en la cámara cerrada. Si $R_{\mathrm{total}}$ está en mol por unidad de tiempo,
+La variable observada por el sensor es la pendiente temporal de la concentración en la cámara cerrada. Como $R_{\mathrm{mol,total}}$ está expresada en mol por unidad de tiempo,
 \begin{equation}
   \frac{dC_{\mathrm{ppm}}}{dt}
   =
   10^6\,\frac{R_uT}{P_{\mathrm{atm}}V_{\mathrm{air}}}\,
-  R_{\mathrm{total}}(t).
+  R_{\mathrm{mol,total}}(t).
   \label{eq:balance-camara}
 \end{equation}
 Las tasas experimentales se recalcularán intervalo por intervalo a partir de las marcas temporales reales; no se aplicará un factor global de conversión.
@@ -264,7 +264,7 @@ Medición & Fuente dominante & Restricción del modelo \\
 \midrule
 Alimento D1 sin larvas & $R_{\mathrm{mic}}$ & Módulo microbiano D1 \\
 Alimento D4 sin larvas & $R_{\mathrm{mic}}$ & Módulo microbiano D4 \\
-Larvas solas en ayuno & $R_{\mathrm{lar}}$ & Mantenimiento larvario \\
+Larvas solas en ayuno & $R_{\mathrm{lar}}$ & Respiración de mantenimiento ($mB$) \\
 Alimento D1 con larvas & $R_{\mathrm{total}}$ & Acoplamiento en D1 \\
 Alimento D4 con larvas & $R_{\mathrm{total}}$ & Acoplamiento en D4 \\
 Crecimiento D1 y D4 & Biomasa larvaria & Crecimiento agregado \\
