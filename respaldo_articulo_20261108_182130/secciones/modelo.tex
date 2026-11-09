@@ -1,0 +1,275 @@
+\section{Modelo dinámico}
+
+\subsection{Sistema y fuentes de CO$_2$}
+
+El sistema experimental se representa mediante dos fuentes acopladas: la respiración larvaria y la degradación microbiana del alimento o lecho. La tasa total de producción de CO$_2$ es
+\begin{equation}
+  R_{\mathrm{total}}(t)
+  =
+  R_{\mathrm{lar}}(t)+R_{\mathrm{mic}}(t).
+  \label{eq:fuentes-totales}
+\end{equation}
+Esta descomposición permite contrastar por separado los controles sin larvas, las larvas en ayuno y los tratamientos completos antes de evaluar el sistema integrado.
+
+
+\subsection{Núcleo larvario de Eriksen}
+
+El núcleo larvario reproduce la formulación de Eriksen, con una precisión operacional en el umbral de entrada a prepupa justificada más adelante. Los estados y flujos se definen por larva y se expresan en equivalentes de carbono: $B$ es la biomasa estructural, $L_{\mathrm{tot}}$ el contenido total de lípidos y $A$ el pool de asimilados. La conversión a masa seca, masa húmeda y CO$_2$ se realiza posteriormente en la capa de observación.
+
+El pool de asimilados se considera pequeño frente a los flujos que lo atraviesan y se mantiene en estado estacionario:
+\begin{equation}
+  \frac{dA}{dt}
+  =
+  0
+  =
+  r_A-
+  \left(
+    r_B+r_L+r_{C,m}+r_{C,B}+r_{C,L}
+  \right).
+  \label{eq:eriksen-balance-a}
+\end{equation}
+Los estados dinámicos son
+\begin{equation}
+  \frac{dB}{dt}=r_B,
+  \qquad
+  \frac{dL_{\mathrm{tot}}}{dt}
+  =
+  r_L+\delta_{L,B}r_B.
+  \label{eq:eriksen-estados}
+\end{equation}
+Aquí $r_A$ es la asimilación, $r_B$ la síntesis de biomasa estructural, $r_L$ la acumulación neta de lípidos de reserva, y $r_{C,m}$, $r_{C,B}$ y $r_{C,L}$ las producciones de CO$_2$ por mantenimiento y síntesis. El término $\delta_{L,B}r_B$ representa los lípidos estructurales incluidos en la medición analítica de lípidos totales.
+
+\subsection{Desarrollo y asimilación}
+
+El tiempo $t$ representa la edad larvaria desde neonato. El máximo de biomasa estructural disminuye cuando las larvas no alcanzan la prepupa antes del tiempo mínimo de desarrollo:
+\begin{equation}
+  B_{\max}(t)=
+  \begin{cases}
+    B_{\max,0}, & t<t_{p,\min},\\[4pt]
+    B_{\max,0}-\rho\left(t-t_{p,\min}\right), & t\geq t_{p,\min}.
+  \end{cases}
+  \label{eq:eriksen-bmax}
+\end{equation}
+Operacionalmente, el instar se evalúa como en el modelo oficial de Eriksen:
+\begin{equation}
+  I=
+  \begin{cases}
+    1\text{--}5, & B<B_{\max,0}/\delta_I,\\[4pt]
+    7, & B\geq B_{\max}(t),\\[4pt]
+    6, & B_{\max,0}/\delta_I\leq B<B_{\max}(t).
+  \end{cases}
+  \label{eq:eriksen-instar}
+\end{equation}
+En la formulación original, la Ec.~15 de Eriksen aparece impresa con el umbral constante $B\geq B_{\max,0}$ para la entrada a prepupa. Esa forma es inconsistente con los resultados reportados en su propia Tabla~2: bajo restricción de alimento las larvas entran a prepupa sin alcanzar nunca $B_{\max,0}$. Se adopta por tanto el umbral decreciente $B_{\max}(t)$, que es el coherente con la Ec.~\eqref{eq:eriksen-bmax}.
+La tasa específica de asimilación es
+\begin{equation}
+  a=
+  \begin{cases}
+    a_{\max}, & I<6,\\[4pt]
+    a_{\max}
+      \left[
+        1-
+        \left(\dfrac{B}{B_{\max}(t)}\right)^\alpha
+      \right], & I=6,\\[10pt]
+    0, & I>6.
+  \end{cases}
+  \label{eq:eriksen-asimilacion}
+\end{equation}
+
+\subsection{Balances de biomasa y CO$_2$ larvario}
+
+La asimilación total y el mantenimiento son proporcionales a la biomasa estructural:
+\begin{equation}
+  r_A=aB,
+  \qquad
+  r_{C,m}=mB.
+  \label{eq:eriksen-asimilacion-mantenimiento}
+\end{equation}
+La tasa específica de crecimiento estructural es
+\begin{equation}
+  \mu_B=
+  \left(\frac{a-m}{1+Y_B}\right)
+  \left[
+    1-
+    \left(\frac{B}{B_{\max}(t)}\right)^\beta
+  \right],
+  \label{eq:eriksen-mu}
+\end{equation}
+y la síntesis de biomasa estructural se detiene en prepupa:
+\begin{equation}
+  r_B=
+  \begin{cases}
+    \mu_BB, & I\leq6,\\[4pt]
+    0, & I>6.
+  \end{cases}
+  \label{eq:eriksen-rb}
+\end{equation}
+
+El costo respiratorio de la síntesis estructural es
+\begin{equation}
+  r_{C,B}=Y_Br_B.
+  \label{eq:eriksen-rcb}
+\end{equation}
+Definiendo el excedente de asimilados
+\begin{equation}
+  s_L=r_A-\left(r_B+r_{C,m}+r_{C,B}\right),
+  \label{eq:eriksen-excedente}
+\end{equation}
+la acumulación neta de lípidos de reserva es
+\begin{equation}
+  r_L=
+  \begin{cases}
+    \dfrac{s_L}{1+Y_L}, & s_L\geq0,\\[8pt]
+    s_L, & s_L<0.
+  \end{cases}
+  \label{eq:eriksen-rl}
+\end{equation}
+El costo respiratorio de la síntesis de lípidos y la producción larvaria total son
+\begin{equation}
+  r_{C,L}=Y_L\max\{r_L,0\},
+  \qquad
+  r_{\mathrm{CO_2,lar}}
+  =
+  r_{C,m}+r_{C,B}+r_{C,L}.
+  \label{eq:eriksen-co2-larvario}
+\end{equation}
+Como los flujos están en mg C d$^{-1}$, la tasa en masa de CO$_2$ es
+\begin{equation}
+  \dot m_{\mathrm{CO_2,lar}}
+  =
+  \frac{44}{12}\,r_{\mathrm{CO_2,lar}}.
+  \label{eq:eriksen-conversion-co2}
+\end{equation}
+El método numérico no forma parte del modelo: estas ecuaciones se resolverán como un sistema continuo de ecuaciones diferenciales.
+
+\subsection{Capa de observación: peso seco y peso húmedo}
+
+Los estados $B$ y $L_{\mathrm{tot}}$ están expresados en equivalentes de carbono. Para comparar con las mediciones de crecimiento se convierten a peso seco y peso húmedo siguiendo las Ecs.~19--22 de Eriksen. El peso seco estructural excluye los lípidos estructurales, que ya quedan contabilizados dentro de $L_{\mathrm{tot}}$:
+\begin{equation}
+  X_{DW,B}=\frac{(1-\delta_{L,B})\,B}{\delta_{C,B}\,\delta_O},
+  \qquad
+  X_{DW}=X_{DW,B}+\frac{L_{\mathrm{tot}}}{\delta_{C,L}},
+  \label{eq:eriksen-xdw}
+\end{equation}
+donde $\delta_{C,B}$ es la fracción de carbono de la fracción orgánica de la biomasa estructural, $\delta_O$ la fracción orgánica del peso seco y $\delta_{C,L}$ la fracción de carbono de los lípidos. El peso seco de lípidos y su fracción del peso seco total son
+\begin{equation}
+  L_{DW}=\frac{L_{\mathrm{tot}}}{\delta_{C,L}},
+  \qquad
+  \delta_{\mathrm{lipid}}=\frac{L_{DW}}{X_{DW}}.
+  \label{eq:eriksen-ldw}
+\end{equation}
+Como los lípidos retienen poca agua, el peso húmedo y la fracción de peso seco de la biomasa total se calculan como
+\begin{equation}
+  X_{WW}=\frac{X_{DW,B}}{\delta_{DW,B}}+L_{DW},
+  \qquad
+  \delta_{DW}=\frac{X_{DW}}{X_{WW}},
+  \label{eq:eriksen-xww}
+\end{equation}
+donde $\delta_{DW,B}$ es la fracción de peso seco de la biomasa estructural. Los valores de conversión son los de Eriksen: $\delta_{C,B}=0.49$, $\delta_O=0.9$, $\delta_{L,B}=0.1$, $\delta_{DW,B}=0.25$ y $\delta_{C,L}=0.79$ (valor empleado en sus tablas; el texto del artículo original reporta 0.74).
+
+\subsection{Extensión del alimento y el lecho}
+
+El núcleo de Eriksen representa la larva, pero no la dinámica del alimento ni la fuente microbiana del lecho. Para extenderlo, sea $D_C(t)$ el carbono degradable disponible, en g C por cámara, y $X(t)$ una biomasa microbiana efectiva, también en g C. El estado $D_C$ se inicializa a partir de la materia seca del alimento:
+\begin{equation}
+  D_C(0)=\delta_{C,S}D_{M,0},
+  \qquad
+  X(0)=X_0,
+  \label{eq:extension-iniciales}
+\end{equation}
+donde $\delta_{C,S}$ es la fracción de carbono degradable del sustrato y $D_{M,0}$ su materia seca inicial.
+
+La disponibilidad de alimento modifica la tasa específica de asimilación del núcleo larvario mediante una función de saturación:
+\begin{equation}
+  \Phi_D(D_C)=\frac{D_C}{K_D+D_C},
+  \qquad
+  a_d(t)=a(t)f_d\Phi_D(D_C),
+  \qquad
+  r_A=a_d(t)B.
+  \label{eq:extension-disponibilidad}
+\end{equation}
+El factor $f_d$ representa la calidad de la dieta; se fijará $f_{D1}=1$ como referencia y $f_{D4}$ podrá estimarse si los datos lo requieren. Esta modificación no pertenece al núcleo original de Eriksen: es la parte de la extensión que conecta la larva con la cantidad de alimento disponible.
+
+El balance del carbono degradable para $N$ larvas es
+\begin{equation}
+  \frac{dD_C}{dt}
+  =
+  -\frac{N}{1000}r_A-r_{\deg}.
+  \label{eq:extension-balance-dc}
+\end{equation}
+El factor $1000$ convierte los mg C larva$^{-1}$ d$^{-1}$ del núcleo larvario a g C d$^{-1}$ por cámara.
+
+La degradación microbiana sigue una cinética de saturación respecto al carbono disponible:
+\begin{equation}
+  r_{\deg}
+  =
+  k(T_C,\theta_d)X
+  \frac{D_C}{K_{SM}+D_C},
+  \qquad
+  \frac{dX}{dt}=Y_Xr_{\deg}.
+  \label{eq:extension-degradacion}
+\end{equation}
+La producción microbiana de CO$_2$ es
+\begin{equation}
+  r_{C,\mathrm{mic}}=Y_{C,\mathrm{mic}}r_{\deg},
+  \qquad
+  0\leq Y_X+Y_{C,\mathrm{mic}}\leq1.
+  \label{eq:extension-co2-microbiano}
+\end{equation}
+El carbono no asignado a biomasa microbiana ni a CO$_2$ permanece en productos no respirados del lecho.
+
+La constante efectiva de degradación incorpora la temperatura y la humedad del tratamiento:
+\begin{equation}
+  k(T_C,\theta_d)
+  =
+  k_{\mathrm{ref}}
+  Q_{10}^{(T_C-T_{\mathrm{ref}})/10}
+  \frac{\theta_d}{K_\theta+\theta_d}.
+  \label{eq:extension-k-temp}
+\end{equation}
+En esta primera versión, $\theta_d$ se calcula con la humedad inicial del lecho y se mantiene fija para cada dieta; no se introduce todavía un balance dinámico del agua.
+
+Finalmente, la producción total de carbono respirado por cámara es
+\begin{equation}
+  R_{C,\mathrm{total}}
+  =
+  \frac{N}{1000}r_{\mathrm{CO_2,lar}}
+  +
+  r_{C,\mathrm{mic}},
+  \qquad
+  R_{\mathrm{mol,total}}
+  =
+  \frac{R_{C,\mathrm{total}}}{12}.
+  \label{eq:extension-co2-total}
+\end{equation}
+En los controles sin larvas, $N=0$ y la observación restringe únicamente el módulo microbiano. En larvas solas, $D_C=0$, $a_d=0$ y la observación restringe la respiración de mantenimiento $mB$ en el estado simulado, no el parámetro $m$ de forma independiente. En los tratamientos completos se observa la suma de ambas fuentes.
+
+\subsection{Balance de la cámara de medición}
+
+La variable observada por el sensor es la pendiente temporal de la concentración en la cámara cerrada. Como $R_{\mathrm{mol,total}}$ está expresada en mol por unidad de tiempo,
+\begin{equation}
+  \frac{dC_{\mathrm{ppm}}}{dt}
+  =
+  10^6\,\frac{R_uT}{P_{\mathrm{atm}}V_{\mathrm{air}}}\,
+  R_{\mathrm{mol,total}}(t).
+  \label{eq:balance-camara}
+\end{equation}
+Las tasas experimentales se recalcularán intervalo por intervalo a partir de las marcas temporales reales; no se aplicará un factor global de conversión.
+
+\subsection{Observables e identificabilidad}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Medición & Fuente dominante & Restricción del modelo \\
+\midrule
+Alimento D1 sin larvas & $R_{\mathrm{mic}}$ & Módulo microbiano D1 \\
+Alimento D4 sin larvas & $R_{\mathrm{mic}}$ & Módulo microbiano D4 \\
+Larvas solas en ayuno & $R_{\mathrm{lar}}$ & Respiración de mantenimiento ($mB$) \\
+Alimento D1 con larvas & $R_{\mathrm{total}}$ & Acoplamiento en D1 \\
+Alimento D4 con larvas & $R_{\mathrm{total}}$ & Acoplamiento en D4 \\
+Crecimiento D1 y D4 & Biomasa larvaria & Crecimiento agregado \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La diferencia tratamiento--control no se interpretará automáticamente como respiración larvaria, porque las larvas también pueden modificar la actividad microbiana del lecho. La validación debe combinar componentes independientes, sistema integrado y transferencia a datos externos.

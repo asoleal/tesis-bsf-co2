@@ -4,9 +4,34 @@
 \usepackage{fontspec}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{listings}
 \usepackage[hidelinks]{hyperref}
 
-\title{Modelo dinámico de emisiones de CO$_2$ en bioconversión con \textit{Hermetia illucens}}
+\graphicspath{{figuras/}}
+\newcommand{\co}{\texorpdfstring{CO$_2$}{CO2}}
+\DeclareMathOperator{\RMSE}{RMSE}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  breakatwhitespace=true,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  showstringspaces=false,
+  captionpos=b,
+  extendedchars=true
+}
+
+\title{Modelo dinámico de generación de \co{} durante la
+bioconversión con \textit{Hermetia illucens}:
+del núcleo larvario de Eriksen al acople alimento--larva--lecho}
 \author{}
 \date{\today}
 
@@ -14,7 +39,18 @@
 
 \maketitle
 
+\input{secciones/resumen}
+\input{secciones/introduccion}
 \input{secciones/modelo}
+\input{secciones/parametros}
 \input{secciones/resultados}
+\input{secciones/discusion}
+\input{secciones/conclusiones}
+
+\appendix
+\input{secciones/programas}
+
+\bibliographystyle{apalike}
+\bibliography{../tesis-BSF/texto-bioconversion/refs}
 
 \end{document}

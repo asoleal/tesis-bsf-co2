@@ -1,0 +1,68 @@
+\section{Programas y reproducibilidad}
+
+\subsection{Organización del código}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Programas principales y función dentro del flujo de trabajo.}
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+Archivo & Función & Salida principal \\
+\midrule
+\texttt{modelo.py} &
+Define parámetros, tasas larvarias, tasas microbianas, estado inicial,
+balance diferencial y conversión carbono--ppm &
+Trayectorias y componentes de \co{} \\
+\texttt{scripts/calibrar\_etapa1.py} &
+Ajusta el módulo microbiano con controles sin larvas &
+$k_{\mathrm{ref}}$ y $\delta_{CS}$ por dieta \\
+\texttt{scripts/calibrar\_etapa2.py} &
+Congela el módulo microbiano y ajusta el sistema acoplado &
+$a_{\max}$, $\rho$ y $f_{D4}$ \\
+\texttt{scripts/validar\_eriksen\_co2.py} &
+Comprueba la implementación del núcleo de referencia &
+Métricas y comparaciones de verificación \\
+\texttt{scripts/figuras\_comparativas.py} &
+Reproduce los RMSE propios y organiza las salidas externas canónicas &
+Figuras PDF y PNG del artículo \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El archivo \texttt{modelo.py} es la fuente común de ecuaciones. Los
+programas de calibración no redefinen el núcleo: modifican parámetros y
+construyen funciones objetivo. El programa de figuras no recalibra ni
+sustituye las simulaciones canónicas.
+
+Las figuras externas utilizan las salidas ya calculadas para cada
+estudio. Las curvas propias se vuelven a integrar desde
+\texttt{modelo.py}. Dos aserciones comprueban que el RMSE conjunto sea
+$183{,}61$ ppm/min para Eriksen y $85{,}16$ ppm/min para el modelo
+propuesto; si cambia el núcleo o los parámetros, el programa se detiene
+en lugar de producir una figura inconsistente con el texto.
+
+\subsection{Orden de ejecución}
+
+Para reproducir solamente las figuras del artículo no es necesario
+repetir las calibraciones:
+\begin{verbatim}
+python3 scripts/figuras_comparativas.py
+\end{verbatim}
+
+Las calibraciones se ejecutan únicamente cuando se desee rehacer el
+ajuste, conservando una comparación explícita con los parámetros
+canónicos:
+\begin{verbatim}
+python3 scripts/calibrar_etapa1.py
+python3 scripts/calibrar_etapa2.py
+python3 scripts/validar_eriksen_co2.py
+\end{verbatim}
+
+\subsection{Listado del generador de figuras}
+
+\lstinputlisting[
+  language=Python,
+  caption={Programa reproducible para las figuras comparativas.},
+  label={lst:figuras}
+]{scripts/figuras_comparativas.py}

@@ -1,0 +1,49 @@
+\section{Introducción}
+
+La bioconversión con \textit{Hermetia illucens} transforma residuos
+orgánicos en biomasa larvaria y un residuo estabilizado. Desde la
+ingeniería ambiental, sin embargo, también es necesario cuantificar el
+carbono que retorna a la atmósfera durante el proceso. La producción de
+\co{} constituye un observable integrador de la respiración larvaria y
+de la degradación microbiana del alimento. Por ello, un modelo útil debe
+representar tanto la magnitud total del flujo como su evolución temporal
+y su dependencia del sustrato.
+
+El modelo dinámico de Eriksen describe el crecimiento y la respiración
+de una larva mediante balances de carbono estructural y lipídico
+\cite{eriksenDynamicModellingFeed2022}. Sus reproducciones de los
+experimentos de Laganaro y Bekker muestran que el núcleo puede
+representar trayectorias individuales de \co{} bajo condiciones
+conocidas \cite{laganaroGrowthMetabolicPerformance2021a,
+bekkerImpactSubstrateMoisture2021a}. No obstante, esas reproducciones
+no constituyen validaciones independientes del presente trabajo, porque
+los mismos escenarios intervinieron en la parametrización del modelo de
+referencia.
+
+Los experimentos de Ermolaev, Schøn y Rossi aportan condiciones de
+transferencia diferentes: medición de emisiones totales, variación de
+temperatura y comparación entre tratamientos y controles,
+respectivamente \cite{ermolaevGreenhouseGasEmissions2019,
+schonEffectTemperatureGrowth2024,
+rossiEstimatingDynamicsGreenhouse2024a}. En conjunto, permiten examinar
+si un modelo calibrado localmente conserva su capacidad predictiva al
+cambiar el alimento, la humedad, la temperatura y el sistema de
+observación.
+
+El objetivo de este artículo es formular y evaluar un modelo de caja
+gris para la generación de \co{} que conserve el núcleo de Eriksen e
+incorpore explícitamente la relación
+\[
+\text{alimento}\longrightarrow
+\text{larvas}+\text{lecho}\longrightarrow \text{\co{}}.
+\]
+Se distinguen tres preguntas: (i) cuánto del error proviene de aplicar
+el núcleo original fuera de su dominio de calibración; (ii) cuánto
+aporte representa el lecho microbiano en el total de cámara; y (iii) si
+la disponibilidad de alimento permite explicar las diferencias entre
+dietas sin sustituir los balances respiratorios originales.
+
+La evaluación separa transferencia sin reajuste, recalibración y
+comparación entre configuraciones. Una recalibración con datos propios
+mide capacidad de ajuste; no equivale a una validación externa
+independiente.

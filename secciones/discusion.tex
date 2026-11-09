@@ -1,0 +1,100 @@
+\section{Discusión}
+
+\subsection{El modelo propuesto conserva el núcleo de Eriksen}
+
+La diferencia estructural principal no consiste en sustituir la
+respiración larvaria. Los términos $r_{C,m}$, $r_{C,B}$ y $r_{C,L}$
+permanecen activos y continúan dependiendo de $m$, $Y_B$ y $Y_L$. El
+modelo propuesto añade un estado microbiano y una dependencia de la
+asimilación respecto del alimento disponible.
+
+Por esta razón, los cambios de resultados entre estudios no pueden
+explicarse únicamente por ``agregar el lecho''. En los datos propios
+también cambian $a_{\max}$, $\rho$ y el factor dietario. Además, el
+acople modifica la trayectoria larvaria a través de $D_C$, de modo que
+el componente microbiano y el componente larvario dejan de ser
+independientes.
+
+\subsection{Interpretación del ajuste y de la validación interna}
+
+En la calibración completa, el RMSE censurado conjunto disminuyó de
+$183{,}61$ a $85{,}16$ ppm/min, equivalente a $53{,}6$ %. Este
+resultado evidencia una mayor capacidad de ajuste del modelo completo
+recalibrado, pero no constituye por sí solo evidencia predictiva fuera
+de muestra.
+
+En la validación cruzada interna agrupada por dieta y día, el modelo
+acoplado redujo el RMSE censurado de $183{,}61$ a $124{,}94$ ppm/min,
+una reducción puntual de $31{,}95$ % frente a Eriksen original. Sin
+embargo, no mejoró el RMSE de los cierres exactos, que fue $137{,}20$
+frente a $128{,}81$ ppm/min, ni la cobertura conjunta de las cotas
+saturadas, que permaneció en $25$ %. Además, subestimó los dos cierres
+de D1 en el día 6 y sobreestimó los cierres tardíos de D1 y D4.
+
+El remuestreo bootstrap exploratorio confirmó una incertidumbre amplia:
+los percentiles $2{,}5$ y $97{,}5$ de la reducción del RMSE censurado
+frente a Eriksen fueron $-82{,}19$ y $52{,}45$ %, respectivamente.
+Como este rango incluye reducciones negativas, la mejoría puntual no
+debe interpretarse como superioridad predictiva concluyente. Tampoco
+permite atribuir por separado los residuos restantes a una fuente
+larvaria o microbiana específica.
+
+\subsection{Ventajas y límites frente a estudios externos}
+
+Los resultados externos impiden afirmar superioridad universal. En
+Laganaro, la parametrización original de $Y_B$ y $m$ captura un efecto
+de calidad dietaria que el factor de disponibilidad no reproduce. En
+Bekker, la reducción del error individual convive con picos anticipados
+y una partición microbiana casi invariante frente a la humedad.
+
+En Ermolaev, el modelo propuesto mejora las tasas puntuales pero empeora
+el sesgo del acumulado. En Schøn, el aumento monótono inducido por
+$Q_{10}$ resulta incompatible con el colapso a alta temperatura. En
+Rossi, una menor distancia agregada no equivale a reproducir la
+variabilidad entre corridas ni el momento del pico.
+
+Estas discrepancias muestran que un RMSE menor puede coexistir con una
+dinámica o una partición incorrectas. La evaluación debe combinar
+errores puntuales, acumulados, momentos de los picos y fracciones de
+las fuentes.
+
+\subsection{Descomposición controlada de la mejora}
+
+La comparación entre Eriksen original, el núcleo recalibrado, el lecho
+aditivo y el modelo acoplado permitió separar contablemente los
+componentes de la reducción del error en calibración. La recalibración
+del núcleo aportó $55{,}8$ % de la reducción total, la adición de
+\co{} microbiano $12{,}7$ % y el acople con la disponibilidad de
+alimento $31{,}5$ %. Por construcción, el lecho aditivo conserva la
+trayectoria larvaria; en cambio, el acople la modifica mediante
+$f_d\Phi_D(D_C)$.
+
+Esta descomposición no identifica efectos causales independientes. La
+recalibración modifica parámetros compartidos y el acople altera
+simultáneamente la asimilación y las trayectorias de biomasa. Por tanto,
+los porcentajes describen la secuencia de configuraciones evaluada y no
+una partición única de las fuentes de error.
+
+\subsection{Sensibilidad e identificabilidad}
+
+Las perturbaciones locales de $\pm 10$ % mostraron que la suma de los
+acumulados independientes de D1 y D4 fue más sensible a $a_{\max}$
+($5{,}49$ %), $k_{\mathrm{ref}}(D1)$ ($3{,}06$ %) y
+$\delta_{CS}(D4)$ ($2{,}75$ %). En contraste, las variaciones asociadas
+con $\rho$ y $k_{\mathrm{ref}}(D4)$ fueron $0{,}18$ y $0{,}10$ %,
+respectivamente. El parámetro $a_{\max}$ también produjo el mayor
+cambio local del RMSE censurado, de $13{,}72$ ppm/min.
+
+El perfil de $\rho$, reoptimizando $a_{\max}$ y $f_{D4}$, presentó una
+región con aumento de costo no superior a $1$ % entre $4{,}3953$ y
+$15$. Dentro de esa región, la suma de los acumulados permaneció entre
+$237{,}06$ y $243{,}00$ g. Así, el límite superior de $\rho$ quedó mal
+identificado, aunque el acumulado fue relativamente estable. El perfil
+de $a_{\max}$, por su parte, favoreció valores próximos a su frontera
+superior.
+
+Estas regiones de costo casi equivalente son exploratorias: no son
+intervalos de confianza ni intervalos predictivos. En consecuencia, la
+estabilidad local del \co{} acumulado no equivale a una identificación
+precisa de todos los parámetros ni elimina la incertidumbre predictiva
+observada en la validación cruzada.

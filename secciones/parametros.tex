@@ -1,0 +1,106 @@
+\section{Parámetros, unidades y procedencia}
+
+\subsection{Parámetros del núcleo larvario}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Parámetros principales del núcleo de Eriksen y su tratamiento
+en la calibración propia.}
+\begin{tabularx}{\textwidth}{l l X l}
+\toprule
+Símbolo & Unidades & Significado & Tratamiento \\
+\midrule
+$B$ & mg C/larva & Biomasa estructural & Estado \\
+$L_{\mathrm{tot}}$ & mg C/larva & Lípidos totales & Estado \\
+$a_{\max}$ & d$^{-1}$ & Asimilación máxima de referencia &
+Calibrado: $1{,}4995$ \\
+$\alpha,\beta$ & -- & Factores de las funciones de crecimiento y
+desarrollo & Heredados \\
+$Y_B$ & -- & Eficiencia de conversión a biomasa estructural &
+Fijo: $0{,}44$ \\
+$Y_L$ & -- & Eficiencia de conversión a lípidos &
+Fijo: $0{,}42$ \\
+$m$ & d$^{-1}$ & Coeficiente de mantenimiento &
+Fijo: $0{,}08$ \\
+$B_{\max,0}$ & mg C & Escala de biomasa estructural máxima &
+Heredado: $39{,}69$ \\
+$t_{p,\min}$ & d & Umbral mínimo de desarrollo &
+$8{,}5$ desde montaje \\
+$\rho$ & mg C/d & Escala del costo máximo de crecimiento &
+Calibrado: $4{,}395$ \\
+$\delta_I$ & d & Duración de instares & Heredado \\
+$\delta_{CL}$ & -- & Fracción de carbono en lípidos &
+Heredado: $0{,}79$ \\
+$\delta_{CB}$ & -- & Fracción de carbono en biomasa &
+Heredado: $0{,}49$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+La conservación del núcleo no implica conservar idénticos todos sus
+valores numéricos. En la calibración propia se ajustan $a_{\max}$,
+$\rho$ y $f_{D4}$, mientras $Y_B$, $Y_L$ y $m$ permanecen congelados.
+Por tanto, no es correcto afirmar que el modelo propuesto eliminó los
+costos de crecimiento o el mantenimiento.
+
+Esta distinción también explica parte de las diferencias externas. En
+la reproducción de Laganaro, Eriksen emplea $Y_B=0{,}44$ y $m=0{,}08$
+para la dieta de alta calidad, pero $Y_B=0{,}76$ y $m=0{,}23$ para el
+escenario con 75\,\% de lodos. Esos cambios aumentan los costos
+metabólicos asociados con la dieta de baja calidad. El modelo propuesto
+actual, con $Y_B$ y $m$ congelados, no reproduce ese mecanismo.
+
+\subsection{Parámetros del alimento y del lecho}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Parámetros de la extensión alimento--lecho.}
+\begin{tabularx}{\textwidth}{l l X l}
+\toprule
+Símbolo & Unidades & Significado & Valor u origen \\
+\midrule
+$D_C$ & g C/cámara & Carbono disponible del alimento & Estado \\
+$X$ & g C/cámara & Biomasa microbiana & Estado \\
+$f_d$ & -- & Disponibilidad integral de la dieta &
+D1: $1$; D4: $0{,}8047$ \\
+$K_D$ & g C & Semisaturación del acople alimento--larva &
+Fijo: $2$ en tratamientos \\
+$k_{\mathrm{ref}}$ & d$^{-1}$ & Cinética microbiana de referencia &
+D1: $0{,}6086$; D4: $1{,}0$ \\
+$K_{SM}$ & g C & Semisaturación de degradación & Fijo: $50$ \\
+$Y_X$ & -- & Rendimiento de biomasa microbiana & Fijo: $0{,}4$ \\
+$Y_{C,\mathrm{mic}}$ & -- & Fracción degradada emitida como \co{} &
+Fijo: $0{,}4$ \\
+$Q_{10}$ & -- & Factor de dependencia térmica & Fijo: $2$ \\
+$T_{\mathrm{ref}}$ & $^\circ$C & Temperatura de referencia &
+Fijo: $25$ \\
+$\theta_d$ & -- & Humedad efectiva adimensional &
+Según escenario \\
+$K_\theta$ & -- & Semisaturación por humedad & Fijo: $0{,}15$ \\
+$\delta_{CS}$ & -- & Fracción de carbono disponible del sustrato &
+D1: $0{,}95$; D4: $0{,}2483$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El valor $a_{\max}=1{,}4995$ d$^{-1}$ se encuentra próximo a su cota
+superior. También $k_{\mathrm{ref}}(D4)=1$ y
+$\delta_{CS}(D1)=0{,}95$ alcanzan sus fronteras superiores. Estos
+resultados se reportan como tales: no se eliminan ni se sustituyen por
+valores más favorables. Señalan que algunos parámetros absorben
+limitaciones estructurales o información insuficiente.
+
+\subsection{Qué se calibró en cada etapa}
+
+La primera etapa utiliza controles sin larvas para estimar
+$k_{\mathrm{ref}}$ y $\delta_{CS}$ por dieta. La segunda congela esos
+parámetros microbianos y ajusta $a_{\max}$, $\rho$ y $f_{D4}$ contra
+crecimiento inicial y ocho cierres de gas. El ajuste de crecimiento se
+restringe a días $\leq8$; la fase tardía se conserva como diagnóstico.
+
+La mejora obtenida en la segunda etapa corresponde al sistema completo.
+No identifica por sí sola la contribución causal del lecho, porque la
+recalibración larvaria y el acople con el alimento cambian
+simultáneamente.

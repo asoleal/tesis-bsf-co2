@@ -1,0 +1,46 @@
+\subsection{Evaluación del modelo de Eriksen para la generación de \texorpdfstring{CO$_2$}{CO2}}
+\label{sec:evaluacion_eriksen_co2}
+
+Se evaluó el modelo de \cite{eriksenDynamicModellingFeed2022} como referencia para representar la generación de CO$_2$ durante la bioconversión con \textit{Hermetia illucens}. El análisis se centró en las tasas y los acumulados de CO$_2$; el crecimiento y la composición larvaria se utilizaron únicamente para definir condiciones iniciales y comprobar la coherencia de las simulaciones. Se distinguieron tres niveles de evaluación: (i) reproducción de los ajustes reportados para CO$_2$ larvario individual, (ii) transferencia sin reajuste a observaciones experimentales propias y (iii) análisis exploratorio del dominio de aplicación frente a CO$_2$ total del sistema, diferentes temperaturas y larvas neonatas.
+
+En las series de CO$_2$ larvario individual de Laganaro et al. \cite{laganaroGrowthMetabolicPerformance2021a} y Bekker et al. \cite{bekkerImpactSubstrateMoisture2021a}, el modelo reprodujo el orden de magnitud y la forma general de las emisiones. En los ocho tratamientos evaluados, el error absoluto medio (AME) estuvo entre 1.71 y 3.19~mg~CO$_2$~d$^{-1}$~larva$^{-1}$ y el RMSE entre 2.29 y 4.58~mg~CO$_2$~d$^{-1}$~larva$^{-1}$. El mejor desempeño se obtuvo en Bekker al 55~\% de humedad (AME = 1.71 y RMSE = 2.29~mg~CO$_2$~d$^{-1}$~larva$^{-1}$). No obstante, el modelo anticipó el pico de emisión en los ocho tratamientos y presentó sobreestimaciones locales, especialmente al 65~\% de humedad. Debido a que estos experimentos fueron utilizados previamente para parametrizar el modelo, estos resultados verifican su implementación y bondad de ajuste, pero no constituyen validaciones independientes.
+
+La transferencia sin reajuste a los datos propios fue insuficiente. El RMSE censurado conjunto fue 183.6~ppm~min$^{-1}$: 222.5~ppm~min$^{-1}$ para D1 y 133.9~ppm~min$^{-1}$ para D4. El modelo subestimó varios cierres tempranos y solo cubrió una de las cuatro cotas inferiores asociadas con mediciones saturadas. En D4, los tres cierres no saturados presentaron además un sesgo medio de $+126.3$~ppm~min$^{-1}$, principalmente por sobreestimación de las emisiones tardías.
+
+En Ermolaev et al. \cite{ermolaevGreenhouseGasEmissions2019}, el componente larvario simulado acumuló 88.8~g de CO$_2$ por caja, frente a emisiones totales observadas entre 108.2 y 117.7~g. El déficit respecto del total estuvo entre 18 y 25~\%, y el pico modelado ocurrió en el día 9.4, mientras que el observado se presentó alrededor del día 7. Esta aproximación es indicativa, pero no valida el CO$_2$ total del proceso, porque el modelo de referencia no incluye explícitamente la respiración microbiana del sustrato ni distingue los tratamientos con adición bacteriana.
+
+Los experimentos de Schøn et al. \cite{schonEffectTemperatureGrowth2024} evidenciaron una restricción estructural diferente: al no contener dependencia térmica, el modelo produjo el mismo intervalo de acumulado para todas las temperaturas, aproximadamente 26--39~L~kg$^{-1}$, frente a valores observados aproximados entre 24 y 54.5~L~kg$^{-1}$. En Rossi et al. \cite{rossiEstimatingDynamicsGreenhouse2024a}, la extrapolación exploratoria a larvas neonatas reprodujo el acumulado neto de una corrida, pero subestimó entre 80 y 83~\% el de las otras dos y no reprodujo el pico observado entre los días 5 y 7. Estos dos últimos análisis se emplean para delimitar el dominio de aplicación y no como pruebas independientes definitivas.
+
+\begin{table}[htbp]
+\centering
+\caption{Evaluación del modelo de Eriksen centrada en la generación de CO$_2$. Las métricas no son directamente intercambiables entre fuentes porque cambian el observable y las unidades experimentales.}
+\label{tab:evaluacion_eriksen_co2}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{2.0cm} p{3.0cm} p{4.1cm} p{4.5cm}}
+\hline
+Fuente & Observable de CO$_2$ & Resultado principal & Interpretación \\
+\hline
+Laganaro et al. & Larvario individual &
+AME = 1.92--2.79 y RMSE = 2.32--3.54~mg~d$^{-1}$~larva$^{-1}$ &
+Reproducción aceptable de la magnitud; anticipación del pico. \\
+Bekker et al. & Larvario individual &
+AME = 1.71--3.19 y RMSE = 2.29--4.58~mg~d$^{-1}$~larva$^{-1}$ &
+Aproximación aceptable; mejor desempeño al 55~\% de humedad. \\
+Datos propios & Cierres experimentales &
+RMSE censurado = 183.6~ppm~min$^{-1}$ &
+Transferencia insuficiente sin recalibración. \\
+Ermolaev et al. & Total del compostaje &
+Acumulado larvario entre 18 y 25~\% inferior al total &
+Comparación indicativa; no valida el CO$_2$ total. \\
+Schøn et al. & Total a cuatro temperaturas &
+Predicción común de 26--39~L~kg$^{-1}$, sin efecto térmico &
+Restricción estructural y de dominio de aplicación. \\
+Rossi et al. & Tratamiento menos control &
+Error del acumulado: $+16$~\% en RUN-1 y entre $-80$ y $-83$~\% en RUN-2 y RUN-3 &
+Extrapolación neonatal exploratoria; dinámica no reproducida. \\
+\hline
+\end{tabular}
+\end{table}
+
+En conjunto, el modelo de referencia resulta útil para representar el componente larvario del CO$_2$ dentro de su dominio de parametrización, pero no constituye por sí solo un modelo general de generación de CO$_2$ durante la bioconversión. Para el objetivo de este artículo, la limitación principal es la omisión de la disponibilidad y calidad del alimento y de la contribución microbiana del lecho. La temperatura y el desarrollo neonatal se mantienen como restricciones del dominio de aplicación, sin ampliar el alcance fisiológico del modelo propuesto.

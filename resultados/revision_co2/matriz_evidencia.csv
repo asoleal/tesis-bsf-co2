@@ -1,0 +1,6 @@
+fuente,rol,gas_directo,series_tasa,acumulado,alimento,control_sin_larvas,condiciones_iniciales,estado
+Eriksen,Verificacion estructural,No extraido,No extraidas,No extraido,15 escenarios,No aplica,Si,Nucleo verificado
+Datos propios,Calibracion y evaluacion interna,Si,8 cierres,No observado directamente,D1/D4; caracterizacion propia,Si,Si,Falta evaluacion interna por bloques
+Ermolaev,Transferencia externa,Si,3 tasas,Si,Food waste; pulsos documentados,No usado en L,Si,Nivel A parcial
+Schon,Transferencia entre dietas,Si,Curvas y totales,Si,4 dietas P:C,No usado,Si,A no diferencia las dietas
+Rossi,Candidato a nueva transferencia,Si,Cada 12 h,Si,Chicken feed caracterizado,Si,Si,Pendiente de incorporar
