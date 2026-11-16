@@ -86,13 +86,13 @@ K_D = 2.0
 PESO_GAS = 25.0  # ppm/min
 
 # Cotas fisicamente plausibles
-LO = np.array([np.log10(1.0), np.log10(0.5), 0.4])
-HI = np.array([np.log10(1.5), np.log10(15.0), 1.0])
+LO = np.array([np.log10(1.0), np.log10(0.5), 0.4, 0.0])
+HI = np.array([np.log10(1.5), np.log10(15.0), 1.0, 1.0])
 ARRANQUES = [
-    (np.log10(1.05), np.log10(1.0), 0.8),
-    (np.log10(1.4), np.log10(1.0), 0.8),
-    (np.log10(1.05), np.log10(8.0), 0.6),
-    (np.log10(1.4), np.log10(8.0), 0.95),
+    (np.log10(1.05), np.log10(1.0), 0.8, 0.3),
+    (np.log10(1.4), np.log10(1.0), 0.8, 0.6),
+    (np.log10(1.05), np.log10(8.0), 0.6, 0.1),
+    (np.log10(1.4), np.log10(8.0), 0.95, 0.5),
 ]
 
 AYUNO_OBS = 28.51  # ppm/min, dia larvario 14 (validacion, no entra al ajuste)
@@ -112,13 +112,14 @@ def cargar_microbiano(ruta):
     return salida
 
 
-def simular_dieta(dieta, amax, rho, f_d4, micro, t_eval):
+def simular_dieta(dieta, amax, rho, f_d4, gamma, micro, t_eval):
     """Sistema completo N=700 con pulsos; devuelve t, ppm y PH."""
     k_ref, dcs = micro[dieta]
     p_larva = ParametrosEriksen(amax=amax, rho=rho, tp_min=TP_MIN)
     p_lecho = ParametrosLecho(
         f_dieta=(1.0 if dieta == "D1" else f_d4),
         K_D=K_D, k_ref=k_ref, K_SM=K_SM, Y_X=Y_X, Y_Cmic=Y_CMIC,
+        gamma=gamma,
     )
     y = estado_inicial_desde_dw(PH0[dieta] * F_MS, 0.0, X0_G_C, p_larva)
     cortes = sorted(set([0.0] + [d for d, _ in PULSOS] + [T_FIN]))
@@ -198,10 +199,11 @@ def main():
         amax = 10.0 ** theta[0]
         rho = 10.0 ** theta[1]
         f_d4 = theta[2]
+        gamma = theta[3]
         res = []
         curvas = {}
         for dieta in ("D1", "D4"):
-            t, ppm, ph, _ = simular_dieta(dieta, amax, rho, f_d4, micro, t_eval)
+            t, ppm, ph, _ = simular_dieta(dieta, amax, rho, f_d4, gamma, micro, t_eval)
             curvas[dieta] = (t, ppm, ph)
         for dieta, dia, obs, w in obs_crec:
             if dia > DIA_AJUSTE_MAX:
@@ -226,16 +228,18 @@ def main():
     amax = 10.0 ** mejor.x[0]
     rho = 10.0 ** mejor.x[1]
     f_d4 = mejor.x[2]
+    gamma = mejor.x[3]
     frontera = []
     for nombre, val, lo, hi in (
         ("a_max", mejor.x[0], LO[0], HI[0]),
         ("rho", mejor.x[1], LO[1], HI[1]),
         ("f_D4", mejor.x[2], LO[2], HI[2]),
+        ("gamma", mejor.x[3], LO[3], HI[3]),
     ):
         if abs(val - lo) < 1e-3 or abs(val - hi) < 1e-3:
             frontera.append(nombre)
     marca = f" [frontera: {','.join(frontera)}]" if frontera else ""
-    print(f"\nCalibrados: a_max={amax:.4f} d^-1, rho={rho:.3f} mg C/d, f_D4={f_d4:.4f}{marca}")
+    print(f"\nCalibrados: a_max={amax:.4f} d^-1, rho={rho:.3f} mg C/d, f_D4={f_d4:.4f}, gamma={gamma:.4f}{marca}")
 
     # Persistir parametros para reproducibilidad (los lee validar_externos.py)
     pdest = Path(args.salida).with_name("parametros_etapa2.csv")
@@ -243,6 +247,7 @@ def main():
         dict(parametro="a_max", valor=amax, frontera=("a_max" in frontera)),
         dict(parametro="rho", valor=rho, frontera=("rho" in frontera)),
         dict(parametro="f_D4", valor=f_d4, frontera=("f_D4" in frontera)),
+        dict(parametro="gamma", valor=gamma, frontera=("gamma" in frontera)),
     ]).to_csv(pdest, index=False)
     print(f"Parametros: {pdest}")
 
@@ -250,7 +255,7 @@ def main():
     filas = []
     t_fino = np.arange(0.0, T_FIN + 0.05, 0.05)
     for dieta in ("D1", "D4"):
-        t, ppm, ph, Y = simular_dieta(dieta, amax, rho, f_d4, micro, t_fino)
+        t, ppm, ph, Y = simular_dieta(dieta, amax, rho, f_d4, gamma, micro, t_fino)
         for d, dia, obs, w in obs_crec:
             if d == dieta:
                 mod = float(np.interp(dia, t, ph))
@@ -312,7 +317,7 @@ def main():
     fig, axes = plt.subplots(2, 2, figsize=(11, 7), sharex=True)
     colores = {"D1": "tab:blue", "D4": "tab:orange"}
     for j, dieta in enumerate(("D1", "D4")):
-        t, ppm, ph, _ = simular_dieta(dieta, amax, rho, f_d4, micro, t_fino)
+        t, ppm, ph, _ = simular_dieta(dieta, amax, rho, f_d4, gamma, micro, t_fino)
         gc = crec[crec["dieta"] == dieta]
         axes[0][j].plot(t, ph, color=colores[dieta], label="modelo")
         axes[0][j].errorbar(gc["dia_larvario"], gc["ph_mg"], yerr=gc["de_mg"],

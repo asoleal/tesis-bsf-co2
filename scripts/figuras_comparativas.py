@@ -18,8 +18,8 @@ FIG.mkdir(exist_ok=True)
 T_EVAL = np.arange(0.0, 14.0001, 0.05)
 PH0 = {"D1": 4.9, "D4": 3.3}
 MS = {"D1": 0.863, "D4": 0.803}
-MICRO = {"D1": (0.6086237218572979, 0.95),
-         "D4": (1.0, 0.2483341741138431)}
+MICRO = {"D1": (1.0, 0.9499999999999998),
+         "D4": (1.0, 0.7982155271261374)}
 OBS = {
     "D1": [(6, 670.558, True, 1), (6, 474.229, True, 2),
            (8, 311.822, True, 1), (10, 285.572, False, 1)],
@@ -41,24 +41,25 @@ def original(dieta):
     ppm = []
     for t, y in zip(sol.t, sol.y.T):
         r = tasas_larva(t, max(y[0], 0), max(y[1], 0), p, 1.0)
-        ppm.append(carbono_a_ppm_min(700 * r.rCO2_C / 1000, 13.08, 300))
+        ppm.append(carbono_a_ppm_min(700 * r.rCO2_C / 1000, 12.1, 300.15))
     return np.asarray(ppm)
 
 
 def propuesto(dieta):
     kref, dcs = MICRO[dieta]
-    pl = ParametrosEriksen(amax=1.4995, rho=4.395, tp_min=8.5)
-    pm = ParametrosLecho(f_dieta=1.0 if dieta == "D1" else 0.8047,
+    pl = ParametrosEriksen(amax=1.4999, rho=9.640, tp_min=8.5,
+                         f_mant_prepupa=0.05, k_cat_prepupa=0.1264)
+    pm = ParametrosLecho(f_dieta=1.0 if dieta == "D1" else 0.7172,
                          K_D=2.0, k_ref=kref, K_SM=50.0,
-                         Y_X=0.4, Y_Cmic=0.4)
+                         Y_X=0.4, Y_Cmic=0.4, gamma=0.5798)
     y = estado_inicial_desde_dw(PH0[dieta] * 0.325, 0, 1, pl)
     ts, ys = [], []
-    for a, b in [(0, 5), (5, 14)]:
-        y[2] += 250 * MS[dieta] * 0.47 * dcs
+    for a, b, gr in [(0, 5, 500.0), (5, 14, 250.0)]:
+        y[2] += gr * MS[dieta] * 0.47 * dcs
         te = T_EVAL[(T_EVAL >= a) & (T_EVAL <= b)]
         if a > 0:
             te = te[1:]
-        sol = solve_ivp(rhs, (a, b), y, args=(pl, pm, 700, 26.85),
+        sol = solve_ivp(rhs, (a, b), y, args=(pl, pm, 700, 27.0),
                         method="LSODA", t_eval=te,
                         rtol=1e-6, atol=1e-9)
         assert sol.success
@@ -70,10 +71,10 @@ def propuesto(dieta):
     lar, mic = [], []
     for tk, yk in zip(t, Y.T):
         B, L, D, X, _, _ = np.maximum(yk, 0)
-        mm = tasas_lecho(D, X, 26.85, pm)
+        mm = tasas_lecho(D, X, 27.0, pm)
         ll = tasas_larva(tk, B, L, pl, pm.f_dieta * mm.phi_D)
-        lar.append(carbono_a_ppm_min(700 * ll.rCO2_C / 1000, 13.08, 300))
-        mic.append(carbono_a_ppm_min(mm.rCmic, 13.08, 300))
+        lar.append(carbono_a_ppm_min(700 * ll.rCO2_C / 1000, 12.1, 300.15))
+        mic.append(carbono_a_ppm_min(mm.rCmic, 12.1, 300.15))
     return np.asarray(lar), np.asarray(mic)
 
 
@@ -93,8 +94,8 @@ r0 = residuos_censurados(E0)
 r1 = residuos_censurados(E1)
 rmse0 = float(np.sqrt(np.mean(r0 ** 2)))
 rmse1 = float(np.sqrt(np.mean(r1 ** 2)))
-assert abs(rmse0 - 183.6127) < 0.01, rmse0
-assert abs(rmse1 - 85.1604) < 0.01, rmse1
+assert abs(rmse0 - 180.53) < 0.01, rmse0
+assert abs(rmse1 - 86.41) < 0.01, rmse1
 print(f"RMSE propio: Eriksen={rmse0:.2f}; propuesto={rmse1:.2f} ppm/min")
 
 # Figura 1: datos propios y fuentes de CO2.
