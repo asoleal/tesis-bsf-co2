@@ -53,6 +53,9 @@ class ParametrosLecho:
     T_ref_C: float = 25.0
     theta: float = 0.7
     K_theta: float = 0.15
+    k_d: float = 0.05      # d^-1, decaimiento endogeno microbiano (fijo, literatura)
+    gamma: float = 0.0     # pastoreo larvario de biomasa microbiana (0 = sin pastoreo)
+    K_G: float = 0.1       # g C, semisaturacion del encuentro larva-microbiota
 
     def __post_init__(self) -> None:
         if self.Y_X + self.Y_Cmic > 1.0 + 1e-12:
@@ -192,14 +195,15 @@ def tasas_lecho(
     factor_theta = p.theta / (p.K_theta + p.theta)
     k_eff = p.k_ref * factor_T * factor_theta
     rdeg = k_eff * X * D_C / (p.K_SM + D_C) if D_C > 0.0 else 0.0
-    rCmic = p.Y_Cmic * rdeg
+    r_endog = p.k_d * X
+    rCmic = p.Y_Cmic * rdeg + r_endog
     return TasasLecho(
         phi_D=phi_D,
         k_eff=k_eff,
         rdeg=rdeg,
         rCmic=rCmic,
         dD_C=-rdeg,
-        dX=p.Y_X * rdeg,
+        dX=p.Y_X * rdeg - r_endog,
     )
 
 
@@ -236,10 +240,11 @@ def rhs(
     factor_alimento = p_lecho.f_dieta * micro.phi_D
     larva = tasas_larva(t, B, Ltot, p_larva, factor_alimento)
 
+    pastoreo = p_lecho.gamma * (N * larva.rA / 1000.0) * X / (p_lecho.K_G + X)
     dD_C = -(N * larva.rA / 1000.0) - micro.rdeg
-    dX = micro.dX
+    dX = micro.dX - pastoreo
     dCO2 = N * larva.rCO2_C / 1000.0 + micro.rCmic
-    dresiduo = (1.0 - p_lecho.Y_X - p_lecho.Y_Cmic) * micro.rdeg
+    dresiduo = (1.0 - p_lecho.Y_X - p_lecho.Y_Cmic) * micro.rdeg + pastoreo
 
     return np.array([larva.dB, larva.dLtot, dD_C, dX, dCO2, dresiduo])
 

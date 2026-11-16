@@ -49,7 +49,7 @@ HI = np.array([1.0, 0.3])
 ARRANQUES = [(0.3, 0.05), (0.15, 0.1)]
 
 
-def simular_dieta_prep(dieta, amax, rho, f_d4, f_mant, k_cat, micro, ph0, t_eval):
+def simular_dieta_prep(dieta, amax, rho, f_d4, gamma, f_mant, k_cat, micro, ph0, t_eval):
     """simular_dieta de la etapa 2 con los parametros de prepupa."""
     k_ref, dcs = micro[dieta]
     p_larva = ParametrosEriksen(amax=amax, rho=rho, tp_min=TP_MIN,
@@ -57,6 +57,7 @@ def simular_dieta_prep(dieta, amax, rho, f_d4, f_mant, k_cat, micro, ph0, t_eval
     p_lecho = ParametrosLecho(
         f_dieta=(1.0 if dieta == "D1" else f_d4),
         K_D=K_D, k_ref=k_ref, K_SM=K_SM, Y_X=Y_X, Y_Cmic=Y_CMIC,
+        gamma=gamma,
     )
     y = estado_inicial_desde_dw(ph0 * F_MS, 0.0, X0_G_C, p_larva)
     cortes = sorted(set([0.0] + [d for d, _ in PULSOS] + [T_FIN]))
@@ -106,9 +107,10 @@ def main():
     micro = cargar_microbiano(args.etapa1)
     par2 = pd.read_csv(args.etapa2)
     par2 = dict(zip(par2["parametro"], par2["valor"]))
-    for k in ("a_max", "rho", "f_D4"):
+    for k in ("a_max", "rho", "f_D4", "gamma"):
         assert k in par2, f"parametros_etapa2.csv sin {k}"
     amax, rho, f_d4 = float(par2["a_max"]), float(par2["rho"]), float(par2["f_D4"])
+    gamma = float(par2["gamma"])
     print(f"Congelados de etapas 1 y 2: a_max={amax:.4f}, rho={rho:.3f}, f_D4={f_d4:.4f}")
     print(f"Microbiano: {micro}")
 
@@ -141,7 +143,7 @@ def main():
 
     def curvas(f_mant, k_cat):
         return {
-            d: simular_dieta_prep(d, amax, rho, f_d4, f_mant, k_cat, micro, ph0[d], t_eval)
+            d: simular_dieta_prep(d, amax, rho, f_d4, gamma, f_mant, k_cat, micro, ph0[d], t_eval)
             for d in ("D1", "D4")
         }
 
@@ -163,7 +165,6 @@ def main():
         for dieta, dia, obs in obs_gas_tarde:
             t, ppm, _, _, _ = cur[dieta]
             res.append((np.interp(dia, t, ppm) - obs) / PESO_GAS)
-        res.append((ayuno_ppm(cur) - AYUNO_OBS) / PESO_GAS)
         return np.array(res)
 
     # Chequeo interno: modulo apagado reproduce el ayuno canonico
