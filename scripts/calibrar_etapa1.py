@@ -7,10 +7,10 @@ degradable del carbono del alimento) contra los cierres de control
 reflectante y multinicio.
 
 Fijos por no identificabilidad o por literatura (ver datos/README.md):
-  X0 = 1 g C (los controles informan el producto k*X, no cada factor),
+    X0 = 1 g C (los controles informan el producto k*X, no cada factor),
   Y_X = 0.4, Y_Cmic = 0.4, K_SM = 50 g C, K_D = 50 g C,
   delta_C_alim = 0.47 g C/g MS, Q10 = 2, theta = 0.7, K_theta = 0.15,
-  T = 300 K, V_aire = 13.08 L.
+  T = 300.15 K, V_aire = 12.1 L.
 
 Reglas: si un optimo queda en la frontera de su cota, se reporta como tal
 (la cota encierra el rango fisicamente plausible; tocarla es un resultado,
@@ -31,11 +31,11 @@ from scipy.optimize import least_squares
 from modelo import ParametrosLecho, carbono_a_ppm_min, tasas_lecho
 
 # Condiciones del montaje
-PULSOS = [(1.0, 250.0), (5.0, 250.0)]
+PULSOS = [(0.0, 500.0), (5.0, 250.0)]
 MS_DIETA = {"D1": 0.863, "D4": 0.803}
-T_K = 300.0
+T_K = 300.15
 T_C = T_K - 273.15
-V_AIRE_L = 13.08
+V_AIRE_L = 12.1
 DELTA_C_ALIM = 0.47
 T_FIN = 14.0
 DIA_MONTAJE_SEP = 3
@@ -73,7 +73,7 @@ def simular_control(dieta, k_ref, delta_CS, t_eval):
         return [micro.dD_C, micro.dX]
 
     y = np.array([0.0, X0_G_C])
-    cortes = [0.0] + [d for d, _ in PULSOS] + [T_FIN]
+    cortes = sorted(set([0.0] + [d for d, _ in PULSOS] + [T_FIN]))
     pulsos = dict(PULSOS)
     ts, ys = [], []
     for a, b in zip(cortes[:-1], cortes[1:]):

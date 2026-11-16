@@ -60,12 +60,12 @@ from modelo import (
 # Condiciones del montaje
 # Primer pulso en t = 0: las larvas llegaron con contenido intestinal
 # de la crianza (decision documentada); segundo pulso dia larvario 5.
-PULSOS = [(0.0, 250.0), (5.0, 250.0)]
+PULSOS = [(0.0, 500.0), (5.0, 250.0)]
 MS_DIETA = {"D1": 0.863, "D4": 0.803}
 N_LARVAS = 700
-T_K = 300.0
+T_K = 300.15
 T_C = T_K - 273.15
-V_AIRE_L = 13.08
+V_AIRE_L = 12.1
 DELTA_C_ALIM = 0.47
 F_MS = 0.325
 T_FIN = 14.0
